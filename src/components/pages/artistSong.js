@@ -1,16 +1,7 @@
 import React, {Component} from 'react';
-import { Icon, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
+import { Typography, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
 import {
-   
-  } from '@ant-design/icons';
-  import {
-    AppstoreOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    PieChartOutlined,
-    DesktopOutlined,
-    ContainerOutlined,
-    MailOutlined,
+    MenuFoldOutlined
   } from '@ant-design/icons';
 import VideoPlayer from 'react-video-js-player';
 import ScrollArea from "react-scrollbar";
@@ -92,6 +83,7 @@ image: '/Assets/mohamed.jpeg'
 },
   
 ]
+// const { VideoPlayer } = require('react-video-js-player');
 
 class PlayLists extends Component {
   constructor(props){
@@ -119,7 +111,6 @@ class PlayLists extends Component {
       
       const name = artistList.filter(playList => playList.id );
       const artistListImg = name.map(list => {
-          var u = list.id;
           console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
           if(list.id == this.state.passesId){
               return list.image;
@@ -127,7 +118,6 @@ class PlayLists extends Component {
             
         })
         const artistListName = name.map(list => {
-            var u = list.id;
             console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
             if(list.id == this.state.passesId){
                 return list.name;
@@ -154,41 +144,41 @@ class PlayLists extends Component {
         
       ]
     return (
-        <div style={{background: '#fff0ff', maxHeight: window.innerHeight -     125}}>
-            <Row gutter={10} style={{ paddingLeft:'3%'}} >
-                <Col span={18} push={4} style={{paddingTop: '4%', paddingLeft:'3%'}}>
-                    <List
-                        itemLayout="horizontal"
-                        dataSource={musicCardList}
-                        renderItem={item => (
-                            <List.Item>
-                                <List.Item.Meta
-                                    avatar={<Avatar src="./music_play.svg" />}
-                                    title={
-                                    < MenuFoldOutlined />,
-                                    <a onClick={this.clicked}>{item.name}</a>}
-                                    // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                                >
-                                </List.Item.Meta>
-                            </List.Item>
-                        )}
-                    />
-                </Col>
-                {/* <Col span={2}>
-                    <Divider type='vertical' dashed='true' />
-                </Col> */}
-                    
-                <Col span={6} pull={18} style={{paddingTop: '4%'}}>
+        <div style={{background: '#fff0ff', maxHeight: window.innerHeight - 125}}>
+            <Row gutter={10} style={{ paddingLeft:'3%', paddingRight:'3%'}} >
+            <Col span={6}  style={{paddingTop: '4%'}}>
                     <Col>
                         <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #888888', }}  >
                             <img className="imgs"
                                 alt="example"
                                 src={artistImage} />
-                            <Meta style={{paddingTop: '8%', fontSize: '22'}} title= {artistName} />
+                            <Meta style={{paddingTop: '8%', fontSize: '22',}} title= {artistName} />
                         </Card>
                     </Col>
          
                 </Col>
+                <Col span={18}  style={{paddingTop: '4%', paddingLeft:'3%'}}>
+                <List
+                    header={
+                        <>
+                        <div>Song List</div>
+                        <Divider />
+                        </>
+                    }
+                    // footer={<div>Footer</div>}
+                    bordered
+                    dataSource={musicCardList}
+                    renderItem={item => (
+                        <List.Item>
+                            <Typography.Text >{item.id}</Typography.Text>{" "}{" "}
+                            <a onClick={this.clicked} style={{ fontSize: '18px'}}>{item.name}</a> 
+                        </List.Item>
+                    )}
+                    />
+                    
+                </Col>
+                    
+               
             </Row>
 
             <Modal
