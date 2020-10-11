@@ -79,7 +79,7 @@ class PlayLists extends Component {
                                             src= {playList.img}
                                         />
                                     <Meta
-                                    style={{paddingTop: '8%'}}
+                                    style={{paddingTop: '8%', }}
                                     title= {playList.name}
                                     />
                                 </Card>

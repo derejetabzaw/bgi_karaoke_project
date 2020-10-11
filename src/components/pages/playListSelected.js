@@ -69,7 +69,7 @@ export default class SelectedPlaylist extends Component {
           {
               id: 3,
               catagory_id: 100,
-              name: 'ቴዲአ ፍፎ',
+              name: 'ቴዲ አፍፎ',
               image: '/Assets/teddy.jpeg'
           }, 
           {
@@ -87,45 +87,45 @@ export default class SelectedPlaylist extends Component {
           {
             id: 6,
             catagory_id: 100,
-            name: 'አስቴር አወቀ',   
+            name: 'ፀሃዬ ዮሃንስ',   
             image: '/Assets/teshaye.jpeg'
         },
         {
           id: 7,
           catagory_id: 100,
-          name: 'አለማየሁ እቨቴ',
+          name: 'ጎሳዬ ተስፋዬ',
           image: '/Assets/gossaye.jpeg'
         },
-      {
+        {
           id: 8,
           catagory_id: 100,
           name: 'ቴዲአ ፍፎ',
           image: '/Assets/dawit.jpeg'
-      }, 
-      {
+        }, 
+        {
           id: 9,
           catagory_id: 100,
-          name: 'ጂጂ',
+          name: 'አብነት አጎናፍር',
           image: '/Assets/abenet.jpeg'
-      },
-      {
+        },
+        {
           id: 10,
           catagory_id: 200,
           name: 'ቀመር ዩሴፍ',
           image: '/Assets/kemer.jpeg'
-      },
-      {
+        },
+        {
         id: 9,
         catagory_id: 100,
         name: 'ጂጂ',
         image: '/Assets/abenet.jpeg'
-    },
-    {
+        },
+        {
         id: 10,
         catagory_id: 200,
-        name: 'ቀመር ዩሴፍ',
+        name: 'ማሀሙድ አህመድ',
         image: '/Assets/mohamed.jpeg'
-    },
+        },
           
         ]
         const name = musicCardList.filter(playList => playList.id );
@@ -137,12 +137,11 @@ export default class SelectedPlaylist extends Component {
             }
            
         })
-        console.log('idddd',generName, this.state.passesId);
   
         return(
             <div>
                     <Row>
-                        <h1 style={{ fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '28px', paddingTop:'3%'}}>የ{generName} አርቲስቶች</h1>
+                        <h1 style={{color: 'red', fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '22px', paddingTop:'3%'}}>የ{generName} አርቲስቶች</h1>
                     </Row>
                 
                 <Row  gutter={12} style={{paddingRight: '3%', paddingLeft: '5%', }} >

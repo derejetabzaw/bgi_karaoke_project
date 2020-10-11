@@ -34,7 +34,7 @@ class SideBar extends Component {
               {catgories.map((catagory, id) =>
               <>
                 <Row>
-                    <h1 style={{ fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '28px', paddingTop:'3%'}}>{catagory.name}</h1>
+                    <h1 style={{ color: 'red', fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '22px', paddingTop:'3%'}}>{catagory.name}</h1>
                 </Row>
                 <Row  gutter={24} style={{paddingRight: '3%', paddingLeft: '5%', }} >
                   <Playlist catagory_id={catagory.id} />

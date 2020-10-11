@@ -17,12 +17,88 @@ import ScrollArea from "react-scrollbar";
 import './pageStyle.css';
 
 const { Meta } = Card;
+const artistList = [
+    {
+        id: 1,
+        catagory_id: 100,
+        name: 'አስቴር አወቀ',
+        image: '/Assets/aster.jpeg'
+    },
+    {
+      id: 2,
+      catagory_id: 100,
+      name: 'አለማየሁ እቨቴ',
+      image: '/Assets/alemayehu.jpeg'
+    },
+  {
+      id: 3,
+      catagory_id: 100,
+      name: 'ቴዲ አፍፎ',
+      image: '/Assets/teddy.jpeg'
+  }, 
+  {
+      id: 4,
+      catagory_id: 100,
+      name: 'ጂጂ',
+      image: '/Assets/gigi.jpeg'
+  },
+  {
+      id: 5,
+      catagory_id: 200,
+      name: 'ጥላሁን ገሠሠ',
+      image: '/Assets/tilahun.jpeg'
+  },
+  {
+    id: 6,
+    catagory_id: 100,
+    name: 'ፀሃዬ ዮሃንስ',   
+    image: '/Assets/teshaye.jpeg'
+},
+{
+  id: 7,
+  catagory_id: 100,
+  name: 'ጎሳዬ ተስፋዬ',
+  image: '/Assets/gossaye.jpeg'
+},
+{
+  id: 8,
+  catagory_id: 100,
+  name: 'ቴዲአ ፍፎ',
+  image: '/Assets/dawit.jpeg'
+}, 
+{
+  id: 9,
+  catagory_id: 100,
+  name: 'አብነት አጎናፍር',
+  image: '/Assets/abenet.jpeg'
+},
+{
+  id: 10,
+  catagory_id: 200,
+  name: 'ቀመር ዩሴፍ',
+  image: '/Assets/kemer.jpeg'
+},
+{
+id: 9,
+catagory_id: 100,
+name: 'ጂጂ',
+image: '/Assets/abenet.jpeg'
+},
+{
+id: 10,
+catagory_id: 200,
+name: 'ማሀሙድ አህመድ',
+image: '/Assets/mohamed.jpeg'
+},
+  
+]
 
 class PlayLists extends Component {
   constructor(props){
     super(props);
     this.state = {
       linkClicked: false,
+      passesId: this.props.match.params.id
     }
   }
   componentDidMount() {
@@ -34,11 +110,33 @@ class PlayLists extends Component {
         linkClicked: true
     })
   }
+  
 
   render() {
       const DawitM = './Assets/Videos/dawit_melese_f.mp4';
       const Teddy = './Assets/Videos/teddy_afro_f.mp4';
       const Cover = './Assets/mic2.jpeg';
+      
+      const name = artistList.filter(playList => playList.id );
+      const artistListImg = name.map(list => {
+          var u = list.id;
+          console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
+          if(list.id == this.state.passesId){
+              return list.image;
+            }
+            
+        })
+        const artistListName = name.map(list => {
+            var u = list.id;
+            console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
+            if(list.id == this.state.passesId){
+                return list.name;
+              }
+              
+          })
+    const artistImage = artistListImg.filter(img => img != undefined )
+    const artistName = artistListName.filter(img => img != undefined )
+        console.log('idddd', artistListName[0]);
 
       const musicCardList = [
           {
@@ -52,21 +150,7 @@ class PlayLists extends Component {
             name: 'ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia',
 
           },
-        // {
-        //     id: 3,
-        //     catagory_id: 100,
-        //     name: 'ትዝታ',
-        // }, 
-        // {
-        //     id: 4,
-        //     catagory_id: 100,
-        //     name: 'አንቺ ሄዬ',
-        // },
-        // {
-        //     id: 5,
-        //     catagory_id: 200,
-        //     name: 'አንቺ ሄዬ',
-        // },
+       
         
       ]
     return (
@@ -99,8 +183,8 @@ class PlayLists extends Component {
                         <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #888888', }}  >
                             <img className="imgs"
                                 alt="example"
-                                src='../Assets/teddy.jpeg' />
-                            <Meta style={{paddingTop: '8%', fontSize: '22'}} title= 'Name' />
+                                src={artistImage} />
+                            <Meta style={{paddingTop: '8%', fontSize: '22'}} title= {artistName} />
                         </Card>
                     </Col>
          
