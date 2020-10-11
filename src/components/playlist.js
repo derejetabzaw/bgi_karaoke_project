@@ -19,7 +19,12 @@ class PlayLists extends Component {
   render() {
       const musicCardList = [
           {
-              id: 1,
+            id: 1,
+            catagory_id: 100,
+            name: 'ትዝታ',
+          }, 
+          {
+              id: 3,
               catagory_id: 100,
               name: 'ባቲ',
           },
@@ -27,22 +32,17 @@ class PlayLists extends Component {
             id: 2,
             catagory_id: 100,
             name: 'አምባሠል',
+          }, 
+          {
+              id: 4,
+              catagory_id: 100,
+              name: 'አንቺ ሄዬ',
           },
-        {
-            id: 3,
-            catagory_id: 100,
-            name: 'ትዝታ',
-        }, 
-        {
-            id: 4,
-            catagory_id: 100,
-            name: 'አንቺ ሄዬ',
-        },
-        {
-            id: 5,
-            catagory_id: 200,
-            name: 'አንቺ ሄዬ',
-        },
+          {
+              id: 5,
+              catagory_id: 200,
+              name: 'አንቺ ሄዬ',
+          },
         
       ]
 
@@ -61,7 +61,7 @@ class PlayLists extends Component {
 
                 {matchedPlaylist.map((playList, id) => (
                     <Link to={`/playlist/` + playList.id} 
-                    render={(props) => (<SelectedPlaylist test="hi" {...props}/>)}
+                    render={(props) => (<SelectedPlaylist  {...props}/>)}
                     >
                         <Col className="gutter-row" style={{ float:'left'}} span={6}>
                                 <Card hoverable
@@ -81,10 +81,9 @@ class PlayLists extends Component {
                      </Link>
                 ))}
 
-                       
-                </ScrollArea>
-    </div>
-    </div>
+            </ScrollArea>
+          </div>
+      </div>
     
     );
   }

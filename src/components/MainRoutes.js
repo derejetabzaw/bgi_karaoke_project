@@ -11,7 +11,9 @@ export default class MainRoute extends Component {
         this.state = {
             collapsed: false,
           }
+
         }
+        
 
     render(){
         return(
@@ -19,12 +21,13 @@ export default class MainRoute extends Component {
                 <Switch>
                     <Route path="/" exact component={Content}></Route>
                     <Route path="/playList/:id" 
-                    render={(props) => (<SelectedPlaylist {...props}/>)}
+                    render={(props) => (<SelectedPlaylist {...props}/>)        
+                }
                     />
-                    <Route path='/playList/Artist'
+                    <Route path="/Artist/:id"
                     render={(props) => (<Artist {...props}/>)}
                  
-                    >Hello</Route>
+                    />
                 </Switch>
             </div>
         )

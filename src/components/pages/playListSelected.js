@@ -79,8 +79,7 @@ export default class SelectedPlaylist extends Component {
           name: 'ቀመር ዩሴፍ',
           image: '/Assets/kemer.jpeg'
       },
-          
-        ]
+     ]
   
         return(
             <div>
@@ -89,9 +88,9 @@ export default class SelectedPlaylist extends Component {
                 </Row>
                 <Row  gutter={12} style={{paddingRight: '3%', paddingLeft: '5%', }} >
                 {artistList.map((playList, id) => (
-                    // <Link to={`/playlist/` + playList.id} 
-                    //     render={(props) => (<SelectedPlaylist test="hi" {...props}/>)}
-                    // >
+                    <Link to={`/Artist/` + playList.id} 
+                        render={(props) => (<Artists  {...props}/>)}
+                    >
 
                         <Col className="gutter-row" style={{ float:'left', paddingTop: '2%'}} span={6}>
                                 <Card hoverable
@@ -99,7 +98,7 @@ export default class SelectedPlaylist extends Component {
                                     key={id}
                                     >
                                         
-                                        <img s
+                                        <img 
                                         className="img"
                                             alt="example"
                                             src={playList.image}
@@ -110,7 +109,7 @@ export default class SelectedPlaylist extends Component {
                                     />
                                 </Card>
                         </Col>
-                    // </Link>
+                    </Link>
                 ))}
                     </Row>
             </div>

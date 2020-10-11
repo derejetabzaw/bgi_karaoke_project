@@ -38,8 +38,8 @@ class App extends Component {
         <Layout  className="site-layout" style={{ marginLeft: 200 }}>
           <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <div className="site-layout-background" style={{ background:'#f0f0ff', minHeight: window.innerHeight - 85 }}>
-              <Artist />
-              {/* <Main /> */}
+              {/* <Artist /> */}
+              <Main />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Footer</Footer>

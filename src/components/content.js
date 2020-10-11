@@ -15,6 +15,7 @@ class SideBar extends Component {
   }
 
   render() {
+    console.log(this.props)
       const catgories = [
           {
             id: 100,
@@ -48,7 +49,6 @@ class SideBar extends Component {
                         horizontal={false}
                         ma
                         >
-                        
                 </ScrollArea> */}
     </div>
     </div>

@@ -3,6 +3,7 @@ import { Icon, Button, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col 
 import {
    
   } from '@ant-design/icons';
+import VideoPlayer from 'react-video-js-player';
 import ScrollArea from "react-scrollbar";
 import './pageStyle.css';
 
@@ -26,6 +27,9 @@ class PlayLists extends Component {
   }
 
   render() {
+      const DawitM = './Assets/Videos/dawit_melese_f.mp4';
+      const Cover = './Assets/mic2.jpeg';
+
       const musicCardList = [
           {
               id: 1,
@@ -55,7 +59,7 @@ class PlayLists extends Component {
         
       ]
     return (
-        <div style={{background: '#fff0 ff', maxHeight: window.innerHeight -     125}}>
+        <div style={{background: '#fff0ff', maxHeight: window.innerHeight -     125}}>
             <Row gutter={10} style={{ paddingLeft:'3%'}} >
                 <Col span={18} push={6} style={{paddingTop: '4%', paddingLeft:'3%'}}>
                     <List
@@ -79,39 +83,37 @@ class PlayLists extends Component {
                             <img className="imgs"
                                 alt="example"
                                 src='../Assets/tilahun.jpeg' />
-                            <Meta style={{paddingTop: '8%', fontSize: '22'}}
-                                            title= 'Name'
-                                            />
+                            <Meta style={{paddingTop: '8%', fontSize: '22'}} title= 'Name' />
                         </Card>
                     </Col>
-                    <Col>
+                <Col>
                         
-                    </Col>
+            </Col>
                 </Col>
             </Row>
 
             <Modal
-                title="Modal 1000px width"
+               
                 centered
                 visible={this.state.linkClicked}
-                onCancel={() => this.setState({
+                onCancel={() => 
+                    this.setState({
                     linkClicked: false
                 })}
-                width={1100}
-                style={{height: window.maxHeight - 35, opacity: '0.6'}}
-                footer={
-                    <div>
-                        {/* <Icon /> */}
-                    </div>
-                }
+                width={780}
+                footer={<div></div>}
+                
             >
-                <div style={{alignContent: 'center', textAlign:'center', border: '0', boxShadow: "none", WebkitBoxShadow:'none'}}>
+                {/* {this.state.linkClicked ?( */}
+                    <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
+                    
+                    {/* <div style={{ display:'block', marginLeft: 'auto', marginRight: 'auto', objectFit: 'cover'}}> */}
+                        <VideoPlayer src={DawitM} poster={Cover} width="720px" height="400px" />
 
-                <p>some contents...</p>
-                <p>some contents...</p>
-                <p>some contents...</p>
-                <p>some contents...</p>
-                </div>
+                    </div>
+                 {/* ): none } */}
+                
+                
             </Modal>
         </div>
 
