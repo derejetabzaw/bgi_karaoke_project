@@ -148,11 +148,12 @@ class PlayLists extends Component {
             <Row gutter={10} style={{ paddingLeft:'3%', paddingRight:'3%'}} >
             <Col span={6}  style={{paddingTop: '4%'}}>
                     <Col>
-                        <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #888888', }}  >
+                        <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #FA8072', }}  >
                             <img className="imgs"
                                 alt="example"
                                 src={artistImage} />
-                            <Meta style={{paddingTop: '8%', fontSize: '22',}} title= {artistName} />
+                            {/* <Meta style={{paddingTop: '8%', fontSize: '22',}} title= {artistName} /> */}
+                            <div >{artistName}</div>
                         </Card>
                     </Col>
          
