@@ -38,7 +38,7 @@ class SideBar extends Component {
                 </Row>
                 <Row  gutter={24} style={{paddingRight: '3%', paddingLeft: '5%', }} >
                   <Playlist catagory_id={catagory.id} />
-                </Row>
+                </Row> 
               </>
               )}
 

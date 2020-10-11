@@ -1,7 +1,16 @@
 import React, {Component} from 'react';
-import { Icon, Button, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
+import { Icon, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
 import {
    
+  } from '@ant-design/icons';
+  import {
+    AppstoreOutlined,
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
+    PieChartOutlined,
+    DesktopOutlined,
+    ContainerOutlined,
+    MailOutlined,
   } from '@ant-design/icons';
 import VideoPlayer from 'react-video-js-player';
 import ScrollArea from "react-scrollbar";
@@ -28,40 +37,42 @@ class PlayLists extends Component {
 
   render() {
       const DawitM = './Assets/Videos/dawit_melese_f.mp4';
+      const Teddy = './Assets/Videos/teddy_afro_f.mp4';
       const Cover = './Assets/mic2.jpeg';
 
       const musicCardList = [
           {
               id: 1,
               catagory_id: 100,
-              name: 'ባቲ',
+              name: 'ዳዊት መለሰ እንዴት ልቻል የ ሙዚቃ ግጥም',
           },
           {
             id: 2,
             catagory_id: 100,
-            name: 'አምባሠል',
+            name: 'ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia',
+
           },
-        {
-            id: 3,
-            catagory_id: 100,
-            name: 'ትዝታ',
-        }, 
-        {
-            id: 4,
-            catagory_id: 100,
-            name: 'አንቺ ሄዬ',
-        },
-        {
-            id: 5,
-            catagory_id: 200,
-            name: 'አንቺ ሄዬ',
-        },
+        // {
+        //     id: 3,
+        //     catagory_id: 100,
+        //     name: 'ትዝታ',
+        // }, 
+        // {
+        //     id: 4,
+        //     catagory_id: 100,
+        //     name: 'አንቺ ሄዬ',
+        // },
+        // {
+        //     id: 5,
+        //     catagory_id: 200,
+        //     name: 'አንቺ ሄዬ',
+        // },
         
       ]
     return (
         <div style={{background: '#fff0ff', maxHeight: window.innerHeight -     125}}>
             <Row gutter={10} style={{ paddingLeft:'3%'}} >
-                <Col span={18} push={6} style={{paddingTop: '4%', paddingLeft:'3%'}}>
+                <Col span={18} push={4} style={{paddingTop: '4%', paddingLeft:'3%'}}>
                     <List
                         itemLayout="horizontal"
                         dataSource={musicCardList}
@@ -69,7 +80,9 @@ class PlayLists extends Component {
                             <List.Item>
                                 <List.Item.Meta
                                     avatar={<Avatar src="./music_play.svg" />}
-                                    title={<a onClick={this.clicked}>Hello</a>}
+                                    title={
+                                    < MenuFoldOutlined />,
+                                    <a onClick={this.clicked}>{item.name}</a>}
                                     // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                                 >
                                 </List.Item.Meta>
@@ -77,18 +90,20 @@ class PlayLists extends Component {
                         )}
                     />
                 </Col>
+                {/* <Col span={2}>
+                    <Divider type='vertical' dashed='true' />
+                </Col> */}
+                    
                 <Col span={6} pull={18} style={{paddingTop: '4%'}}>
                     <Col>
                         <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #888888', }}  >
                             <img className="imgs"
                                 alt="example"
-                                src='../Assets/tilahun.jpeg' />
+                                src='../Assets/teddy.jpeg' />
                             <Meta style={{paddingTop: '8%', fontSize: '22'}} title= 'Name' />
                         </Card>
                     </Col>
-                <Col>
-                        
-            </Col>
+         
                 </Col>
             </Row>
 
@@ -108,7 +123,7 @@ class PlayLists extends Component {
                     <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
                     
                     {/* <div style={{ display:'block', marginLeft: 'auto', marginRight: 'auto', objectFit: 'cover'}}> */}
-                        <VideoPlayer src={DawitM} poster={Cover} width="720px" height="400px" />
+                        <VideoPlayer src={Teddy} poster={Cover} width="720px" height="400px" />
 
                     </div>
                  {/* ): none } */}

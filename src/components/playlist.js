@@ -22,26 +22,31 @@ class PlayLists extends Component {
             id: 1,
             catagory_id: 100,
             name: 'ትዝታ',
+            img: './Assets/kirar.jpeg'
           }, 
           {
               id: 3,
               catagory_id: 100,
               name: 'ባቲ',
+              img: './Assets/bati.jpeg'
           },
           {
             id: 2,
             catagory_id: 100,
             name: 'አምባሠል',
+            img: './Assets/ambasel.jpeg'
           }, 
           {
               id: 4,
               catagory_id: 100,
               name: 'አንቺ ሄዬ',
+              img: './Assets/anchiiHoye.jpeg'
           },
           {
               id: 5,
               catagory_id: 200,
               name: 'አንቺ ሄዬ',
+              img: './Assets/bbatii.jpeg'
           },
         
       ]
@@ -65,12 +70,13 @@ class PlayLists extends Component {
                     >
                         <Col className="gutter-row" style={{ float:'left'}} span={6}>
                                 <Card hoverable
-                                    style={{ width: '100%' }} 
+                                    style={{ width: '100%', boxShadow: 'red' }} 
                                     key={id}
                                     >
-                                        <img style={{ width: '100%', height: '10%' }}
+                                        <img 
+                                            className='rootImg'
                                             alt="example"
-                                            src='./Assets/bati.jpeg'
+                                            src= {playList.img}
                                         />
                                     <Meta
                                     style={{paddingTop: '8%'}}

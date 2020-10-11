@@ -24,14 +24,15 @@ class App extends Component {
       <div className="App">
         <Layout>
           <Sider 
-          // theme= {"light"}
+          theme= {"light"}
           style={{
         overflow: 'auto',
         height: '100vh',
         position: 'fixed',
         left: 0,
-        // backgroundImage: `url(${Images})`
-        // background: './pattern.jpg'
+        // color: "red"g
+        backgroundImage: `url(${'./pattern.jpg'})`
+        
       }}>
             <SideBar />
         </Sider>
@@ -42,7 +43,7 @@ class App extends Component {
               <Main />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Footer</Footer>
+          {/* <Footer style={{ textAlign: 'center' }}>Footer</Footer> */}
           </Layout>
         </Layout>
 
