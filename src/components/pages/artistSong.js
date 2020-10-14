@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import { Typography, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
-import {
-    MenuFoldOutlined
-  } from '@ant-design/icons';
-import VideoPlayer from 'react-video-js-player';
-import ScrollArea from "react-scrollbar";
 import './pageStyle.css';
+import Daw from './Videos/dawit_melese_f.mp4';
 
-const { Meta } = Card;
+
 const artistList = [
     {
         id: 1,
@@ -90,13 +86,12 @@ class PlayLists extends Component {
     super(props);
     this.state = {
       linkClicked: false,
-      passesId: this.props.match.params.id
+      passesId: this.props.match.params.id,
+      
     }
   }
   componentDidMount() {
-
   }
-
   clicked = () => { 
     this.setState({
         linkClicked: true
@@ -108,14 +103,14 @@ class PlayLists extends Component {
       const DawitM = './Assets/Videos/dawit_melese_f.mp4';
       const Teddy = './Assets/Videos/teddy_afro_f.mp4';
       const Cover = './Assets/mic2.jpeg';
-      
+      var files = [DawitM, Teddy];
+ 
       const name = artistList.filter(playList => playList.id );
       const artistListImg = name.map(list => {
           console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
           if(list.id == this.state.passesId){
               return list.image;
-            }
-            
+            }      
         })
         const artistListName = name.map(list => {
             console.log('return',list, list.id, this.state.passesId, list.id == this.state.passesId )
@@ -139,11 +134,11 @@ class PlayLists extends Component {
             catagory_id: 100,
             name: 'ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia',
 
-          },
-       
-        
+          },   
       ]
     return (
+      <div>	
+     
         <div style={{background: '#fff0ff', maxHeight: window.innerHeight - 125}}>
             <Row gutter={10} style={{ paddingLeft:'3%', paddingRight:'3%'}} >
             <Col span={6}  style={{paddingTop: '4%'}}>
@@ -178,7 +173,7 @@ class PlayLists extends Component {
                     />
                     
                 </Col>
-                    
+                
                
             </Row>
 
@@ -194,19 +189,25 @@ class PlayLists extends Component {
                 footer={<div></div>}
                 
             >
-                {/* {this.state.linkClicked ?( */}
-                    <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
-                    
-                    {/* <div style={{ display:'block', marginLeft: 'auto', marginRight: 'auto', objectFit: 'cover'}}> */}
-                        <VideoPlayer src={Teddy} poster={Cover} width="720px" height="400px" />
+             
+               <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
+                { this.state.linkClicked ?
+                  <video width="720" height="400" controls >
+                        <source src={Daw} type="video/mp4"/>
+                  </video> : 
 
-                    </div>
-                 {/* ): none } */}
+                  <video width="720" height="400" controls ended >
+                       <source src={Daw} type="video/mp4"/>
+                  </video>
+
+                }
+
+                </div>
                 
                 
             </Modal>
         </div>
-
+        </div>
     
     );
   }
