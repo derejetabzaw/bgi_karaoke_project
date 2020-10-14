@@ -97,7 +97,13 @@ class PlayLists extends Component {
         linkClicked: true
     })
   }
-  
+
+  stopVid = () =>{
+    var video = document.getElementById("myVideoPlayer");
+    video.pause();
+    video.currentTime = 0;
+ 
+  }
 
   render() {
       const DawitM = './Assets/Videos/dawit_melese_f.mp4';
@@ -192,13 +198,11 @@ class PlayLists extends Component {
              
                <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
                 { this.state.linkClicked ?
-                  <video width="720" height="400" controls >
+                  <video id="myVideoPlayer" width="720" height="400" controls >
                         <source src={Daw} type="video/mp4"/>
                   </video> : 
-
-                  <video width="720" height="400" controls ended >
-                       <source src={Daw} type="video/mp4"/>
-                  </video>
+              // this.stopVid()
+              []
 
                 }
 
