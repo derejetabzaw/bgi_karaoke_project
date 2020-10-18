@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 import Content from "./content";
 import SelectedPlaylist from "./pages/playListSelected";
 import Artist from "./pages/artistSong";
+import SignUp from "./signup";
 import {Switch, Route} from 'react-router-dom';
+import Dashboard from '../dashboard';
 
 export default class MainRoute extends Component {
     constructor(props){
@@ -19,15 +21,14 @@ export default class MainRoute extends Component {
         return(
             <div>
                 <Switch>
-                    <Route path="/" exact component={Content}></Route>
+                    <Route path="/dashboard" exact component={Content}></Route>
+                    
                     <Route path="/playList/:id" 
-                    render={(props) => (<SelectedPlaylist {...props}/>)        
-                }
+                        render={(props) => (<SelectedPlaylist {...props}/>) }
                     />
                     <Route path="/Artist/:id"
-                    render={(props) => (<Artist {...props}/>)}
-                 
-                    />
+                        render={(props) => (<Artist {...props}/>)}
+                     />
                 </Switch>
             </div>
         )

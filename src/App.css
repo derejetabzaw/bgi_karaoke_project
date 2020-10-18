@@ -3,8 +3,12 @@
 
 .App {
   text-align: center;
-  background: #2E3845;
+  /* background: #2E3845; */
   min-height: 200;
   /* background-image: url('./dawit.jpg') ; */
 }
 
+.site-layout{
+  background-color: #292934;
+  color: #999;
+}

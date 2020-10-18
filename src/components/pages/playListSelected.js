@@ -117,8 +117,8 @@ export default class SelectedPlaylist extends Component {
         {
         id: 9,
         catagory_id: 100,
-        name: 'ጂጂ',
-        image: '/Assets/abenet.jpeg'
+        name: 'ያሬድ ነጉ',
+        image: '/Assets/yared.jpeg'
         },
         {
         id: 10,
@@ -139,7 +139,7 @@ export default class SelectedPlaylist extends Component {
         })
   
         return(
-            <div>
+            <div style={{ background: '#292934'}}>
                     <Row>
                         <h1 style={{color: 'red', fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '22px', paddingTop:'3%'}}>የ{generName} አርቲስቶች</h1>
                     </Row>

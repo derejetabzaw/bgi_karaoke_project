@@ -1,55 +1,57 @@
-import React, {Component} from 'react';
-import { Breadcrumb, Layout } from "antd";
-import Contents from './components/content';
-import Main from './components/MainRoutes';
-import SideBar from './components/sidebar';
-import Artist from './components/pages/artistSong';
-// import 
+import React, { Component } from "react";
 
-import './App.css';
-import {BrowserRouter as Router} from 'react-router-dom'
+import Content from "./components/content";
+import SelectedPlaylist from "./components/pages/playListSelected";
+import Artist from "./components/pages/artistSong";
+import SignUp from "./components/signup";
+import { Switch, Route } from "react-router-dom";
+import Dashboard from "./dashboard";
+import { Layout } from "antd";
+import SideBar from "./components/sidebar";
 
-const {  Footer, Sider, Content } = Layout;
+const { Sider } = Layout;
 
-class App extends Component {
-  constructor(props){
+export default class MainRoute extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       collapsed: false,
-    }
+    };
   }
+
   render() {
-
     return (
-      <div className="App">
-        <Layout>
-          <Sider 
-          theme= {"light"}
-          style={{
-        overflow: 'auto',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-        // color: "red"g
-        backgroundImage: `url(${'./pattern.jpg'})`
-        
-      }}>
-            <SideBar />
-        </Sider>
-        <Layout  className="site-layout" style={{ marginLeft: 200 }}>
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-            <div className="site-layout-background" style={{ background:'#f0f0ff', minHeight: window.innerHeight - 85 }}>
-              {/* <Artist /> */}
-              <Main />
-            </div>
-          </Content>
-          {/* <Footer style={{ textAlign: 'center' }}>Footer</Footer> */}
-          </Layout>
-        </Layout>
+      <div>
+        <Switch>
+          <Route path="/" exact component={SignUp}></Route>
 
-    </div>
+          <Route path="/dashboard" component={Dashboard}></Route>
+          <Layout style={{ marginLeft: 200 }}>
+            <Sider
+              theme={"dark"}
+              style={{
+                overflow: "auto",
+                height: "100vh",
+                position: "fixed",
+                left: 0,
+                // color: "red"g
+                backgroundImage: `url(${"./pattern.jpg"})`,
+              }}
+            >
+              <SideBar />
+            </Sider>
+
+            <Route
+              path="/playList/:id"
+              render={(props) => <SelectedPlaylist {...props} />}
+            />
+            <Route
+              path="/Artist/:id"
+              render={(props) => <Artist {...props} />}
+            />
+          </Layout>
+        </Switch>
+      </div>
     );
   }
 }
-
-export default App;

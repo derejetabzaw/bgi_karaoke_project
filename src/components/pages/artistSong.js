@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Typography, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
 import './pageStyle.css';
 import Daw from './Videos/dawit_melese_f.mp4';
+import Item from 'antd/lib/list/Item';
 
 
 const artistList = [
@@ -93,8 +94,10 @@ class PlayLists extends Component {
   componentDidMount() {
   }
   clicked = () => { 
+    console.log('------->', this.props)
     this.setState({
-        linkClicked: true
+        linkClicked: true,
+        
     })
   }
 
@@ -109,7 +112,7 @@ class PlayLists extends Component {
       const DawitM = './Assets/Videos/dawit_melese_f.mp4';
       const Teddy = './Assets/Videos/teddy_afro_f.mp4';
       const Cover = './Assets/mic2.jpeg';
-      var files = [DawitM, Teddy];
+      var files = [{id: 1, vid: DawitM}, {id: 2, vid: Teddy}];
  
       const name = artistList.filter(playList => playList.id );
       const artistListImg = name.map(list => {
@@ -134,26 +137,32 @@ class PlayLists extends Component {
               id: 1,
               catagory_id: 100,
               name: 'ዳዊት መለሰ እንዴት ልቻል የ ሙዚቃ ግጥም',
+              music: './Assets/Videos/dawit_melese_f.mp4'
+              
           },
           {
             id: 2,
             catagory_id: 100,
             name: 'ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia',
+            music: './Assets/Videos/teddy_afro_f.mp4'
 
           },   
       ]
+
+      files.map(u => {
+        console.log('#######', u.id);
+      })
     return (
-      <div>	
+      <div style={{background: '#292934'}}>	
      
-        <div style={{background: '#fff0ff', maxHeight: window.innerHeight - 125}}>
-            <Row gutter={10} style={{ paddingLeft:'3%', paddingRight:'3%'}} >
+        <div style={{background: '#292934', height: '100vh', width: '180vh'}}>
+            <Row gutter={18} style={{ paddingLeft:'3%', paddingRight:'3%'}} >
             <Col span={6}  style={{paddingTop: '4%'}}>
                     <Col>
                         <Card hoverable style={{ width: '100%', boxShadow:'3px 3px #FA8072', }}  >
                             <img className="imgs"
                                 alt="example"
                                 src={artistImage} />
-                            {/* <Meta style={{paddingTop: '8%', fontSize: '22',}} title= {artistName} /> */}
                             <div >{artistName}</div>
                         </Card>
                     </Col>
@@ -167,52 +176,47 @@ class PlayLists extends Component {
                         <Divider />
                         </>
                     }
-                    // footer={<div>Footer</div>}
                     bordered
                     dataSource={musicCardList}
                     renderItem={item => (
-                        <List.Item>
-                            <Typography.Text >{item.id}</Typography.Text>{" "}{" "}
-                            <a onClick={this.clicked} style={{ fontSize: '18px'}}>{item.name}</a> 
+                        <List.Item >
+                              <>
+                                {/* <Typography.Text >{item.id}</Typography.Text> */}
+                                <a onClick={this.clicked} style={{ fontSize: '18px'}}>{item.name}</a>
+                              </> 
+                          
                         </List.Item>
                     )}
                     />
                     
-                </Col>
-                
-               
+                </Col>      
             </Row>
-
             <Modal
-               
+            
                 centered
                 visible={this.state.linkClicked}
                 onCancel={() => 
                     this.setState({
                     linkClicked: false
                 })}
-                width={780}
+                width={0}
+                style={{paddingRight: '50%'}}
                 footer={<div></div>}
                 
             >
              
                <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
-                { this.state.linkClicked ?
-                  <video id="myVideoPlayer" width="720" height="400" controls >
-                        <source src={Daw} type="video/mp4"/>
-                  </video> : 
-              // this.stopVid()
-              []
-
-                }
+              
+               { this.state.linkClicked   ?
+                      <video id="myVideoPlayer" width="720" height="400" controls >
+                         <source src={Daw} type="video/mp4"/>
+                      </video> :  []
+              }
 
                 </div>
-                
-                
             </Modal>
         </div>
         </div>
-    
     );
   }
 }
