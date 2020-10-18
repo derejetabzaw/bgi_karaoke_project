@@ -15,6 +15,7 @@ import {
 import {Link} from 'react-router-dom';
 import Dashboard from '../dashboard';
 import { withRouter } from "react-router-dom";
+// import Main from "./components/MainRoutes";
 
 // const { VideoPlayer } = require('react-video-js-player'); //#292934
 const { TabPane } = Tabs;
@@ -29,6 +30,7 @@ class Signup extends Component {
   componentDidMount() {}
   
   navigate = () => {
+    
     this.props.history.push("/dashboard");
   }
 

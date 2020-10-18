@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { Typography, Divider, Modal , List, Tabs, Card, Layout, Avatar, Row, Menu, Col  } from "antd";
 import './pageStyle.css';
 import Daw from './Videos/dawit_melese_f.mp4';
+import Ted from './Videos/teddy_afro_f.mp4';
+
 import Item from 'antd/lib/list/Item';
 
 
@@ -88,16 +90,17 @@ class PlayLists extends Component {
     this.state = {
       linkClicked: false,
       passesId: this.props.match.params.id,
+      music: ""
       
     }
   }
   componentDidMount() {
   }
-  clicked = () => { 
+  clicked = music => { 
     console.log('------->', this.props)
     this.setState({
         linkClicked: true,
-        
+        music: music
     })
   }
 
@@ -109,10 +112,7 @@ class PlayLists extends Component {
   }
 
   render() {
-      const DawitM = './Assets/Videos/dawit_melese_f.mp4';
-      const Teddy = './Assets/Videos/teddy_afro_f.mp4';
       const Cover = './Assets/mic2.jpeg';
-      var files = [{id: 1, vid: DawitM}, {id: 2, vid: Teddy}];
  
       const name = artistList.filter(playList => playList.id );
       const artistListImg = name.map(list => {
@@ -137,21 +137,19 @@ class PlayLists extends Component {
               id: 1,
               catagory_id: 100,
               name: 'ዳዊት መለሰ እንዴት ልቻል የ ሙዚቃ ግጥም',
-              music: './Assets/Videos/dawit_melese_f.mp4'
+              music: Daw
               
           },
           {
             id: 2,
             catagory_id: 100,
             name: 'ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia',
-            music: './Assets/Videos/teddy_afro_f.mp4'
+            music: Ted
 
           },   
       ]
 
-      files.map(u => {
-        console.log('#######', u.id);
-      })
+      
     return (
       <div style={{background: '#292934'}}>	
      
@@ -163,7 +161,7 @@ class PlayLists extends Component {
                             <img className="imgs"
                                 alt="example"
                                 src={artistImage} />
-                            <div >{artistName}</div>
+                            <div>{artistName}</div>
                         </Card>
                     </Col>
          
@@ -182,17 +180,14 @@ class PlayLists extends Component {
                         <List.Item >
                               <>
                                 {/* <Typography.Text >{item.id}</Typography.Text> */}
-                                <a onClick={this.clicked} style={{ fontSize: '18px'}}>{item.name}</a>
+                                <a onClick={() => this.clicked(item.music)} style={{ fontSize: '18px'}}>{item.name}</a>
                               </> 
-                          
                         </List.Item>
                     )}
-                    />
-                    
+                  />   
                 </Col>      
             </Row>
             <Modal
-            
                 centered
                 visible={this.state.linkClicked}
                 onCancel={() => 
@@ -201,22 +196,22 @@ class PlayLists extends Component {
                 })}
                 width={0}
                 style={{paddingRight: '50%'}}
-                footer={<div></div>}
-                
+                footer={<div></div>}    
             >
              
                <div style={{alignContent: 'center', paddingTop: '2.5%' ,marginLeft: '1%', marginRight: 'auto', textAlign:'center', border: '0', boxShadow: "none"}}>
               
                { this.state.linkClicked   ?
+               
                       <video id="myVideoPlayer" width="720" height="400" controls >
-                         <source src={Daw} type="video/mp4"/>
+                         <source src={this.state.music} type="video/mp4"/>
                       </video> :  []
-              }
-
+                      //  console.log('selected', this.state.music)
+               }
                 </div>
             </Modal>
         </div>
-        </div>
+      </div>
     );
   }
 }
