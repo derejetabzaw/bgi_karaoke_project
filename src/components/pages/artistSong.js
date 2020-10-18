@@ -151,7 +151,7 @@ class PlayLists extends Component {
 
       
     return (
-      <div style={{background: '#292934'}}>	
+      <div style={{background: '#292934',  paddingTop: '3%'}}>	
      
         <div style={{background: '#292934', height: '100vh', width: '180vh'}}>
             <Row gutter={18} style={{ paddingLeft:'3%', paddingRight:'3%'}} >

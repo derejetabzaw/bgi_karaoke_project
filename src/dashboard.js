@@ -11,7 +11,7 @@ import Artist from "./components/pages/artistSong";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 
-const { Footer, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout;
 
 class Dashboard extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ class Dashboard extends Component {
             <SideBar />
           </Sider>
           <Layout className="site-layout" style={{ marginLeft: 200 }}>
+          <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} ></Header>
             <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
               <div
                 className="site-layout-background"

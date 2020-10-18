@@ -25,7 +25,7 @@ class SideBar extends Component {
     return (
       <div className="SideNav" >
           <Link to="/dashboard">
-            <Row style={{ paddingLeft:'15%', paddingTop:'3%',background:'#292934' }}>
+            <Row style={{ paddingLeft:'15%', paddingTop:'3%',background:'#001529' }}>
               <Avatar size={34} src = './icon.png' />
                 <h1 style={{ color: 'red', fontFamily: 'Architects Daughter', fontSize:'24px'}} level={3}> Karaoke</h1>
             </Row>

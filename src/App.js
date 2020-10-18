@@ -9,7 +9,7 @@ import Dashboard from "./dashboard";
 import { Layout } from "antd";
 import SideBar from "./components/sidebar";
 
-const { Sider } = Layout;
+const { Sider, Header } = Layout;
 
 export default class MainRoute extends Component {
   constructor(props) {
@@ -40,6 +40,7 @@ export default class MainRoute extends Component {
             >
               <SideBar />
             </Sider>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} ></Header>
 
             <Route
               path="/playList/:id"

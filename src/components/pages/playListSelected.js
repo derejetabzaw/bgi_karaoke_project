@@ -139,7 +139,7 @@ export default class SelectedPlaylist extends Component {
         })
   
         return(
-            <div style={{ background: '#292934'}}>
+            <div style={{ background: '#292934', paddingTop: '3%'}}>
                     <Row>
                         <h1 style={{color: 'red', fontFamily:'Permanent Marker', paddingLeft: '2%', float: 'left', fontSize: '22px', paddingTop:'3%'}}>የ{generName} አርቲስቶች</h1>
                     </Row>
