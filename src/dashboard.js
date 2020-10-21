@@ -38,7 +38,13 @@ class Dashboard extends Component {
             <SideBar />
           </Sider>
           <Layout className="site-layout" style={{ marginLeft: 200 }}>
-          <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} ></Header>
+          <Header style={{ position: 'fixed', zIndex: 1,  width: '100%', height: '8.5%', background:'#001529'}} >
+            <h1 style={{color:'white',}}>uuuuu</h1>
+            <div>
+              
+            </div>
+
+          </Header>
             <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
               <div
                 className="site-layout-background"

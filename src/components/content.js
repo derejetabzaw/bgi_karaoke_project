@@ -39,7 +39,7 @@ class SideBar extends Component {
                     fontFamily: "Permanent Marker",
                     paddingLeft: "2%",
                     float: "left",
-                    fontSize: "22px",
+                    fontSize: "24px",
                     paddingTop: "3%",
                   }}
                 >

@@ -36,7 +36,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div style={{paddingTop: '5%'}}>
+      <div style={{paddingTop: '2%'}}>
         <Card
         //   bordered={false}
           style={{
@@ -52,7 +52,7 @@ class Signup extends Component {
           }}
         >
           <Tabs defaultActiveKey="2" centered>
-            {/* <TabPane tab="Sign-In" key="1">
+            <TabPane tab="Sign-In" key="1">
               <Form
                 style={{ paddingTop: "7%" }}
                 layout="vertical"
@@ -83,16 +83,18 @@ class Signup extends Component {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                <Form.Item style={{paddingTop: '3%'}}>
+                  <Button type="primary" htmlType="submit"
+                  style={{width: '70%', marginLeft: 'auto', marginRight: 'auto', display: 'block  '}}
+                  >
                     Sign In
                   </Button>
                 </Form.Item>
               </Form>
-            </TabPane> */}
+            </TabPane>
             <TabPane tab="Register" key="2">
               <Form
-                style={{ paddingTop: "7%" }}
+                style={{ paddingTop: "4%" }}
                 layout="vertical"
                 name="basic"
                 initialValues={{ remember: true }}
@@ -153,9 +155,19 @@ class Signup extends Component {
                 >
                   <Input.Password />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item
+                  label="Confirm Password"
+                  name="password"
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                  ]}
+                >
+                  <Input.Password />
+                </Form.Item>
+                <Form.Item   style={{paddingTop: '3%'}}>
                   <Button type="primary" htmlType="submit" 
                   onClick={this.navigate}
+                  style={{width: '70%', marginLeft: 'auto', marginRight: 'auto', display: 'block  '}}
                   >
                     Register
                   </Button>
