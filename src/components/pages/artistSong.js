@@ -1,24 +1,38 @@
 import React, { Component } from "react";
 import {
-  Typography,
-  Divider,
   Modal,
   List,
-  Tabs,
   Card,
-  Layout,
-  Avatar,
+  Button, Tooltip,
   Row,
-  Menu,
   Col,
 } from "antd";
+import { SearchOutlined ,AudioOutlined} from '@ant-design/icons';
+import 'video.js/dist/video-js.min.css';
+import WaveSurfer from 'wavesurfer.js';
+import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
 
-import Item from "antd/lib/list/Item";
 
 const artistList = [
+  {
+    id: 14,
+    catagory_id: 100,
+    name: "ዳዊት መለሰ",
+    image: "/Assets/dawitM.jpeg",
+    videoName: "ዳዊት መለሰ እንዴት ልቻል የ ሙዚቃ ግጥም",
+    music: Daw,
+  },
+  {
+    id: 3,
+    catagory_id: 100,
+    name: "ቴዲ አፍፎ",
+    image: "/Assets/teddy.jpeg",
+    videoName: "ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia",
+    music: Ted,
+  },
   {
     id: 1,
     catagory_id: 100,
@@ -31,12 +45,7 @@ const artistList = [
     name: "አለማየሁ እቨቴ",
     image: "/Assets/alemayehu.jpeg",
   },
-  {
-    id: 3,
-    catagory_id: 100,
-    name: "ቴዲ አፍፎ",
-    image: "/Assets/teddy.jpeg",
-  },
+ 
   {
     id: 4,
     catagory_id: 100,
@@ -93,7 +102,7 @@ const artistList = [
   },
 ];
 // const { VideoPlayer } = require('react-video-js-player');
-
+// WaveSurfer.microphone = MicrophonePlugin;
 class PlayLists extends Component {
   constructor(props) {
     super(props);
@@ -118,37 +127,61 @@ class PlayLists extends Component {
     video.currentTime = 0;
   };
 
-  render() {
-    const Cover = "./Assets/mic2.jpeg";
+  audio = (btn, vidId) => {
+    
+    // myVideoPlayer.onClick = () => {
 
+      var vid = document.getElementById(vidId);
+      let audi = []
+
+      if(vid.paused){
+        vid.play();
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then( stream => {
+          console.log('hoo',stream)
+          var mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start()
+  
+          mediaRecorder.addEventListener('available', e => {
+            audi.push(e.data)
+          })
+        })
+
+      } else {
+        vid.pause()
+
+      }
+      
+      console.log('clicked', vid, audi)
+    // }
+    // let mic = new p5.AudioIn();
+    // mic.start();
+    // let recorder = new p5.SoundRecorder();
+    // recorder.setInput(mic);
+  }
+
+  render() {
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
-      console.log(
-        "return",
-        list,
-        list.id,
-        this.state.passesId,
-        list.id == this.state.passesId
-      );
       if (list.id == this.state.passesId) {
         return list.image;
       }
     });
     const artistListName = name.map((list) => {
-      console.log(
-        "return",
-        list,
-        list.id,
-        this.state.passesId,
-        list.id == this.state.passesId
-      );
       if (list.id == this.state.passesId) {
         return list.name;
       }
     });
+    const artistVid = name.map((list) => {
+      if (list.id == this.state.passesId) {
+        return list;
+      }
+    });
     const artistImage = artistListImg.filter((img) => img != undefined);
     const artistName = artistListName.filter((img) => img != undefined);
-    console.log("idddd", artistListName[0]);
+    const artistVideo = artistVid.filter((vid) => vid != undefined);
+
+    console.log("idddd", artistListName[0], name, artistVideo);
 
     const musicCardList = [
       {
@@ -164,7 +197,6 @@ class PlayLists extends Component {
         music: Ted,
       },
     ];
-
     return (
       <div style={{ background: "#292934", paddingTop: "3%" }}>
         <div style={{ background: "#292934", height: "100vh", width: "180vh" }}>
@@ -198,16 +230,16 @@ class PlayLists extends Component {
                   </>
                 }
                 bordered
-                dataSource={musicCardList}
+                dataSource={artistVideo}
                 renderItem={(item) => (
+                  console.log('iteeemmmm', item),
                   <List.Item>
                     <>
-                      {/* <Typography.Text >{item.id}</Typography.Text> */}
                       <a
                         onClick={() => this.clicked(item.music)}
                         style={{ fontSize: "18px" }}
                       >
-                        {item.name}
+                        {item.videoName}
                       </a>
                     </>
                   </List.Item>
@@ -240,9 +272,18 @@ class PlayLists extends Component {
             >
               {
                 this.state.linkClicked ? (
-                  <video id="myVideoPlayer" width="720" height="400" controls>
+                  <>
+                  <video id="myVideoPlayer" width="720" height="400" controls >
                     <source src={this.state.music} type="video/mp4" />
                   </video>
+                  <div style={{background: '#333', padding: '10px', width: '700px'}}>  
+                  <Tooltip title="Record">
+                    <Button type="primary" shape="circle" icon={<AudioOutlined />} 
+                      id='recordStop' onClick={() => this.audio(this, 'myVideoPlayer')}
+                    />
+                  </Tooltip>
+                  </div>
+                  </>
                 ) : (
                   []
                 )

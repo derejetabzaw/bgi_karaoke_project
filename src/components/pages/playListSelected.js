@@ -51,6 +51,20 @@ export default class SelectedPlaylist extends Component {
   }
   render() {
     const artistList = [
+     {
+    id: 14,
+    catagory_id: 100,
+    name: "ዳዊት መለሰ",
+    image: "/Assets/dawitM.jpeg",
+    video: "./Videos/dawit_melese_f.mp4"
+  },
+  {
+    id: 3,
+    catagory_id: 100,
+    name: "ቴዲ አፍፎ",
+    image: "/Assets/teddy.jpeg",
+    video: "./Videos/teddy_afro_f.mp4"
+  },
       {
         id: 1,
         catagory_id: 100,
@@ -62,12 +76,6 @@ export default class SelectedPlaylist extends Component {
         catagory_id: 100,
         name: "አለማየሁ እቨቴ",
         image: "/Assets/alemayehu.jpeg",
-      },
-      {
-        id: 3,
-        catagory_id: 100,
-        name: "ቴዲ አፍፎ",
-        image: "/Assets/teddy.jpeg",
       },
       {
         id: 4,
@@ -93,12 +101,7 @@ export default class SelectedPlaylist extends Component {
         name: "ጎሳዬ ተስፋዬ",
         image: "/Assets/gossaye.jpeg",
       },
-      {
-        id: 8,
-        catagory_id: 100,
-        name: "ቴዲአ ፍፎ",
-        image: "/Assets/dawit.jpeg",
-      },
+      
       {
         id: 9,
         catagory_id: 100,
