@@ -7,9 +7,9 @@ import {
   Row,
   Col,
 } from "antd";
-import { SearchOutlined ,AudioOutlined} from '@ant-design/icons';
+import { StopOutlined, BorderOutlined  ,AudioOutlined} from '@ant-design/icons';
 import 'video.js/dist/video-js.min.css';
-import WaveSurfer from 'wavesurfer.js';
+import Recorder from 'recorder-js';
 import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
@@ -101,8 +101,10 @@ const artistList = [
     image: "/Assets/mohamed.jpeg",
   },
 ];
-// const { VideoPlayer } = require('react-video-js-player');
-// WaveSurfer.microphone = MicrophonePlugin;
+
+const recordButton = document.getElementById("start");
+const stopButton = document.getElementById("stop");
+
 class PlayLists extends Component {
   constructor(props) {
     super(props);
@@ -110,6 +112,8 @@ class PlayLists extends Component {
       linkClicked: false,
       passesId: this.props.match.params.id,
       music: "",
+      audio: '',
+      blob: null
     };
   }
   componentDidMount() {}
@@ -120,66 +124,67 @@ class PlayLists extends Component {
     });
   };
 
-  stopVid = () => {
-    var video = document.getElementById("myVideoPlayer");
-    video.pause();
-    video.currentTime = 0;
-  };
+  co
 
   audio = (btn, vidId) => {
-    
-    // myVideoPlayer.onClick = () => {
+    var vid = document.getElementById(vidId);
+    var audio = document.getElementById('audio');
+    console.log('btnn', btn);
 
-      var vid = document.getElementById(vidId);
-      let audi = [];
-      var stop = document.getElementById('Stop')
+    navigator.mediaDevices.getUserMedia({audio: true, video: false})
+    .then( function(mediaSteamObj) {
+
+      let mediaRecorder = new MediaRecorder(mediaSteamObj);
 
       if(vid.paused){
-        vid.play();
-        navigator.mediaDevices.getUserMedia({audio: true})
-        .then( function(mediaSteamObj) {
-          
-          var audio = document.querySelector('audio');
-          let mediaRecorder = new MediaRecorder(mediaSteamObj);
-          mediaRecorder.start(100)
-          
-          mediaRecorder.ondataavailable = function(event) {
-            audi.push(event.data);
-            console.log('hoo', audi )
+        vid.play(); //play the video
+        mediaRecorder.start(1000) //start recording audio
+        mediaRecorder.ondataavailable  = (event) => {  //grab the audio data recorded
+          var add = [];
+          if(event){
+            add.push(event.data);
+            console.log('playyy',add );
+            // this.setState({
+            //   audio: add //grab the audio data recorded and set it to an array
+            // })
           }
-          mediaRecorder.onstop = (event) => {
-            let blob = new Blob(audi, {'type': 'audio/wav'});
-            let audioUrl = window.URL.createObjectURL(blob);
-            console.log('-----', blob)
-            return audioUrl
-          }
-        })
-
-      } else {
-        vid.pause()
-
-        navigator.mediaDevices.getUserMedia({audio: true})
-        .then( stream => {
-          var mediaRecorder = new MediaRecorder(stream);
-          // mediaRecorder.stop();
-         
-          if(mediaRecorder.state == 'inactive'){
-           
-          }
-          
-          console.log('clicked', vid, audi)
-          
-        })
-
-      }
-
-
-      
-      
-      
+        }
+      }  
+      // else {
+      //   this.stopAudio();
+      // // }   
+    })
+    .catch(function(err) {
+      console.log('error is', err.name, err.message)
+    });
+    console.log('--->>', this.state.audio);
   }
 
+  stopAudio = (btn, vidId) => {
+    var vid = document.getElementById(vidId);
+    var audio = document.getElementById('audio');
+
+    navigator.mediaDevices.getUserMedia({audio: true, video: false})
+    .then( function(mediaSteamObj) {
+    let mediaRecorder = new MediaRecorder(mediaSteamObj);
+
+      vid.pause()
+          // mediaRecorder.stop() 
+          if(mediaRecorder.state === "inactive")
+          {
+            // let blob = new Blob(this.state.audio {'type': 'audio/wav'});
+            // console.log('hoo22',this.state.audio,  mediaRecorder, blob)
+            // let audioUrl = window.URL.createObjectURL(blob);
+            // audio.src = audioUrl;
+          }
+    })
+
+
+  };
+
+
   render() {
+    
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
@@ -200,20 +205,6 @@ class PlayLists extends Component {
     const artistName = artistListName.filter((img) => img != undefined);
     const artistVideo = artistVid.filter((vid) => vid != undefined);
 
-    const musicCardList = [
-      {
-        id: 1,
-        catagory_id: 100,
-        name: "ዳዊት መለሰ እንዴት ልቻል የ ሙዚቃ ግጥም",
-        music: Daw,
-      },
-      {
-        id: 2,
-        catagory_id: 100,
-        name: "ቴዎድሮስ ካሳሁን (ቴዲ አፍሮ) - Ethiopia",
-        music: Ted,
-      },
-    ];
     return (
       <div style={{ background: "#292934", paddingTop: "3%" }}>
         <div style={{ background: "#292934", height: "100vh", width: "180vh" }}>
@@ -293,22 +284,24 @@ class PlayLists extends Component {
                     <source src={this.state.music} type="video/mp4" />
                   </video>
                   <div style={{background: '#333', padding: '10px', width: '720px'}}>  
-                  {/* <Row>
-                  <Col> */}
+                  <Row>
+                  <Col span={12}>
                   <Tooltip title="Record">
                     <Button type="primary" shape="circle" icon={<AudioOutlined />} 
-                      id='recordStop' onClick={() => this.audio(this, 'myVideoPlayer')}
+                      id="start" 
+                      onClick={() => this.audio(this, 'myVideoPlayer')}
                       />
                   </Tooltip>
-                  {/* </Col> */}
-                  {/* <Col>
+                  </Col>
+                  <Col  span={12}>
                   <Tooltip title="Stop">
-                    <Button type="primary" shape="circle" icon={<AudioOutlined />} 
-                      id='Stop' onClick={() => this.audio(this, 'myVideoPlayer')}
+                    <Button type="primary" shape="circle" icon={ <BorderOutlined /> } 
+                      id='stop' 
+                      onClick={() => this.stopAudio(this, 'myVideoPlayer')}
                     />
                   </Tooltip>
-                  </Col> */}
-                      {/* </Row> */}
+                  </Col>
+                      </Row>
                   </div>
                   </>
                 ) : (
@@ -317,6 +310,8 @@ class PlayLists extends Component {
               }
             </div>
           </Modal>
+          {/* <audio id='audio' controls></audio> */}
+          {/* <video  id='vid' controls ></video> */}
         </div>
       </div>
     );
