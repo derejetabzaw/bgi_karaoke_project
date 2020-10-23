@@ -1,20 +1,12 @@
 import React, { Component } from "react";
-import {
-  Modal,
-  List,
-  Card,
-  Button, Tooltip,
-  Row,
-  Col,
-} from "antd";
-import { StopOutlined, BorderOutlined  ,AudioOutlined} from '@ant-design/icons';
-import 'video.js/dist/video-js.min.css';
-import Recorder from 'recorder-js';
-import 'videojs-wavesurfer/dist/css/videojs.wavesurfer.css';
+import { Modal, List, Card, Button, Tooltip, Row, Col } from "antd";
+import { StopOutlined, BorderOutlined, AudioOutlined } from "@ant-design/icons";
+import "video.js/dist/video-js.min.css";
+import { ReactMic } from "react-mic";
+import "videojs-wavesurfer/dist/css/videojs.wavesurfer.css";
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
-
 
 const artistList = [
   {
@@ -45,7 +37,7 @@ const artistList = [
     name: "አለማየሁ እቨቴ",
     image: "/Assets/alemayehu.jpeg",
   },
- 
+
   {
     id: 4,
     catagory_id: 100,
@@ -102,9 +94,6 @@ const artistList = [
   },
 ];
 
-const recordButton = document.getElementById("start");
-const stopButton = document.getElementById("stop");
-
 class PlayLists extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +102,8 @@ class PlayLists extends Component {
       passesId: this.props.match.params.id,
       music: "",
       audio: '',
-      blob: null
+      record: false,
+      blob: null,
     };
   }
   componentDidMount() {}
@@ -124,67 +114,29 @@ class PlayLists extends Component {
     });
   };
 
-  co
-
-  audio = (btn, vidId) => {
+  startRecording = (btn, vidId) => {
     var vid = document.getElementById(vidId);
-    var audio = document.getElementById('audio');
-    console.log('btnn', btn);
+    vid.play();
+    this.setState({ record: true });
+  };
 
-    navigator.mediaDevices.getUserMedia({audio: true, video: false})
-    .then( function(mediaSteamObj) {
-
-      let mediaRecorder = new MediaRecorder(mediaSteamObj);
-
-      if(vid.paused){
-        vid.play(); //play the video
-        mediaRecorder.start(1000) //start recording audio
-        mediaRecorder.ondataavailable  = (event) => {  //grab the audio data recorded
-          var add = [];
-          if(event){
-            add.push(event.data);
-            console.log('playyy',add );
-            // this.setState({
-            //   audio: add //grab the audio data recorded and set it to an array
-            // })
-          }
-        }
-      }  
-      // else {
-      //   this.stopAudio();
-      // // }   
-    })
-    .catch(function(err) {
-      console.log('error is', err.name, err.message)
-    });
-    console.log('--->>', this.state.audio);
-  }
-
-  stopAudio = (btn, vidId) => {
+  stopRecording = (btn, vidId) => {
     var vid = document.getElementById(vidId);
-    var audio = document.getElementById('audio');
-
-    navigator.mediaDevices.getUserMedia({audio: true, video: false})
-    .then( function(mediaSteamObj) {
-    let mediaRecorder = new MediaRecorder(mediaSteamObj);
-
-      vid.pause()
-          // mediaRecorder.stop() 
-          if(mediaRecorder.state === "inactive")
-          {
-            // let blob = new Blob(this.state.audio {'type': 'audio/wav'});
-            // console.log('hoo22',this.state.audio,  mediaRecorder, blob)
-            // let audioUrl = window.URL.createObjectURL(blob);
-            // audio.src = audioUrl;
-          }
-    })
-
+    vid.pause();
+    this.setState({ record: false });
 
   };
 
+  onData(recordedBlob) {
+    console.log("chunk of real-time data is: ", recordedBlob);
+  }
+
+  onStop(recordedBlob) {
+    console.log("recordedBlob is: ", recordedBlob);
+    
+  }
 
   render() {
-    
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
@@ -277,40 +229,63 @@ class PlayLists extends Component {
                 boxShadow: "none",
               }}
             >
-              {
-                this.state.linkClicked ? (
-                  <>
-                  <video id="myVideoPlayer" width="720" height="400" controls >
+              {this.state.linkClicked ? (
+                <>
+                  <video id="myVideoPlayer" width="720" height="400" >
                     <source src={this.state.music} type="video/mp4" />
                   </video>
-                  <div style={{background: '#333', padding: '10px', width: '720px'}}>  
-                  <Row>
-                  <Col span={12}>
-                  <Tooltip title="Record">
-                    <Button type="primary" shape="circle" icon={<AudioOutlined />} 
-                      id="start" 
-                      onClick={() => this.audio(this, 'myVideoPlayer')}
+                  <div
+                    style={{
+                      background: "#333",
+                      padding: "10px",
+                      width: "720px",
+                    }}
+                  >
+                    <Row>
+                      <ReactMic
+                        record={this.state.record}
+                        // className="sound-wave"
+                        onStop={this.onStop}
+                        onData={this.onData}
+                        mimeType="audio/wav"  
+                        strokeColor="white"
+                        backgroundColor="#292934"
+                        style={{height: '30px', }}
                       />
-                  </Tooltip>
-                  </Col>
-                  <Col  span={12}>
-                  <Tooltip title="Stop">
-                    <Button type="primary" shape="circle" icon={ <BorderOutlined /> } 
-                      id='stop' 
-                      onClick={() => this.stopAudio(this, 'myVideoPlayer')}
-                    />
-                  </Tooltip>
-                  </Col>
-                      </Row>
+                      <Col span={12}>
+                        <Tooltip title="Record">
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<AudioOutlined />}
+                            id="start"
+                            onClick={() => this.startRecording(this, 'myVideoPlayer')}
+                          />
+                        </Tooltip>
+                      </Col>
+                      <Col span={12}>
+                        <Tooltip title="Stop">
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<BorderOutlined />}
+                            id="stop"
+                            onClick={
+                              () =>
+                              this.stopRecording(this, 'myVideoPlayer')
+                            }
+                          />
+                        </Tooltip>
+                      </Col>
+                    </Row>
                   </div>
-                  </>
-                ) : (
-                  []
-                )
-              }
+                </>
+              ) : (
+                []
+              )}
             </div>
           </Modal>
-          {/* <audio id='audio' controls></audio> */}
+          {/* <audio src={this.state.audio} id='audio' controls></audio> */}
           {/* <video  id='vid' controls ></video> */}
         </div>
       </div>
