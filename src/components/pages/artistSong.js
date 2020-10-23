@@ -131,9 +131,11 @@ class PlayLists extends Component {
     console.log("chunk of real-time data is: ", recordedBlob);
   }
 
-  onStop(recordedBlob) {
+  onStop = (recordedBlob) => {
     console.log("recordedBlob is: ", recordedBlob);
-    
+    this.setState({
+      audio: recordedBlob.blobURL
+    })
   }
 
   render() {
@@ -244,7 +246,7 @@ class PlayLists extends Component {
                     <Row>
                       <ReactMic
                         record={this.state.record}
-                        // className="sound-wave"
+                        className="sound-wave"
                         onStop={this.onStop}
                         onData={this.onData}
                         mimeType="audio/wav"  
@@ -285,7 +287,7 @@ class PlayLists extends Component {
               )}
             </div>
           </Modal>
-          {/* <audio src={this.state.audio} id='audio' controls></audio> */}
+          <audio src={this.state.audio} id='audio' controls style={{marginLeft: '3.5%', width: '22%', paddingTop:'1%'}}></audio>
           {/* <video  id='vid' controls ></video> */}
         </div>
       </div>
