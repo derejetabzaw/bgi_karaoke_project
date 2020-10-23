@@ -114,7 +114,6 @@ class PlayLists extends Component {
   }
   componentDidMount() {}
   clicked = (music) => {
-    console.log("------->", this.props);
     this.setState({
       linkClicked: true,
       music: music,
@@ -137,27 +136,56 @@ class PlayLists extends Component {
       if(vid.paused){
         vid.play();
         navigator.mediaDevices.getUserMedia({audio: true})
-        .then( stream => {
-          console.log('hoo',stream)
-          var mediaRecorder = new MediaRecorder(stream);
+        .then( function(mediaSteamObj) {
+          
+          var audio = document.querySelector('audio');
+          var mediaRecorder = new MediaRecorder(mediaSteamObj);
           mediaRecorder.start()
-  
-          mediaRecorder.addEventListener('available', e => {
-            audi.push(e.data)
-          })
+          
+          
+          console.log('hoo',mediaRecorder)
+          mediaRecorder.ondataavailable = function(e) {
+            }
+          // mediaRecorder.addEventListener('ondataavailable', function(e) {
+            
+          //   audi.push(e.data)
+          // })
+          
+          // if(mediaRecorder.state == 'recording'){
+          //   mediaRecorder.ondataavailable = function(e) {
+          //   }
+          // }
+          // console.log('midaaa', mediaRecorder, audi)
+
+          
         })
 
       } else {
         vid.pause()
 
+        navigator.mediaDevices.getUserMedia({audio: true})
+        .then( stream => {
+          var mediaRecorder = new MediaRecorder(stream);
+          // mediaRecorder.stop();
+          console.log('0000000', stream, mediaRecorder )
+          
+          if(mediaRecorder.state == 'inactive'){
+            let blob = new Blob(audi, {'type': 'audio/wav;'});
+            let audioUrl = window.URL.createObjectURL(blob);
+
+            console.log('-----', audioUrl, blob)
+          }
+          
+      
+          
+        })
+
       }
+
+
+      
       
       console.log('clicked', vid, audi)
-    // }
-    // let mic = new p5.AudioIn();
-    // mic.start();
-    // let recorder = new p5.SoundRecorder();
-    // recorder.setInput(mic);
   }
 
   render() {
@@ -180,8 +208,6 @@ class PlayLists extends Component {
     const artistImage = artistListImg.filter((img) => img != undefined);
     const artistName = artistListName.filter((img) => img != undefined);
     const artistVideo = artistVid.filter((vid) => vid != undefined);
-
-    console.log("idddd", artistListName[0], name, artistVideo);
 
     const musicCardList = [
       {
@@ -232,7 +258,6 @@ class PlayLists extends Component {
                 bordered
                 dataSource={artistVideo}
                 renderItem={(item) => (
-                  console.log('iteeemmmm', item),
                   <List.Item>
                     <>
                       <a
@@ -276,7 +301,7 @@ class PlayLists extends Component {
                   <video id="myVideoPlayer" width="720" height="400" controls >
                     <source src={this.state.music} type="video/mp4" />
                   </video>
-                  <div style={{background: '#333', padding: '10px', width: '700px'}}>  
+                  <div style={{background: '#333', padding: '10px', width: '720px'}}>  
                   <Tooltip title="Record">
                     <Button type="primary" shape="circle" icon={<AudioOutlined />} 
                       id='recordStop' onClick={() => this.audio(this, 'myVideoPlayer')}
@@ -287,7 +312,6 @@ class PlayLists extends Component {
                 ) : (
                   []
                 )
-                //  console.log('selected', this.state.music)
               }
             </div>
           </Modal>
