@@ -131,7 +131,8 @@ class PlayLists extends Component {
     // myVideoPlayer.onClick = () => {
 
       var vid = document.getElementById(vidId);
-      let audi = []
+      let audi = [];
+      var stop = document.getElementById('Stop')
 
       if(vid.paused){
         vid.play();
@@ -139,25 +140,19 @@ class PlayLists extends Component {
         .then( function(mediaSteamObj) {
           
           var audio = document.querySelector('audio');
-          var mediaRecorder = new MediaRecorder(mediaSteamObj);
-          mediaRecorder.start()
+          let mediaRecorder = new MediaRecorder(mediaSteamObj);
+          mediaRecorder.start(100)
           
-          
-          console.log('hoo',mediaRecorder)
-          mediaRecorder.ondataavailable = function(e) {
-            }
-          // mediaRecorder.addEventListener('ondataavailable', function(e) {
-            
-          //   audi.push(e.data)
-          // })
-          
-          // if(mediaRecorder.state == 'recording'){
-          //   mediaRecorder.ondataavailable = function(e) {
-          //   }
-          // }
-          // console.log('midaaa', mediaRecorder, audi)
-
-          
+          mediaRecorder.ondataavailable = function(event) {
+            audi.push(event.data);
+            console.log('hoo', audi )
+          }
+          mediaRecorder.onstop = (event) => {
+            let blob = new Blob(audi, {'type': 'audio/wav'});
+            let audioUrl = window.URL.createObjectURL(blob);
+            console.log('-----', blob)
+            return audioUrl
+          }
         })
 
       } else {
@@ -167,16 +162,12 @@ class PlayLists extends Component {
         .then( stream => {
           var mediaRecorder = new MediaRecorder(stream);
           // mediaRecorder.stop();
-          console.log('0000000', stream, mediaRecorder )
-          
+         
           if(mediaRecorder.state == 'inactive'){
-            let blob = new Blob(audi, {'type': 'audio/wav;'});
-            let audioUrl = window.URL.createObjectURL(blob);
-
-            console.log('-----', audioUrl, blob)
+           
           }
           
-      
+          console.log('clicked', vid, audi)
           
         })
 
@@ -185,7 +176,7 @@ class PlayLists extends Component {
 
       
       
-      console.log('clicked', vid, audi)
+      
   }
 
   render() {
@@ -302,11 +293,22 @@ class PlayLists extends Component {
                     <source src={this.state.music} type="video/mp4" />
                   </video>
                   <div style={{background: '#333', padding: '10px', width: '720px'}}>  
+                  {/* <Row>
+                  <Col> */}
                   <Tooltip title="Record">
                     <Button type="primary" shape="circle" icon={<AudioOutlined />} 
                       id='recordStop' onClick={() => this.audio(this, 'myVideoPlayer')}
+                      />
+                  </Tooltip>
+                  {/* </Col> */}
+                  {/* <Col>
+                  <Tooltip title="Stop">
+                    <Button type="primary" shape="circle" icon={<AudioOutlined />} 
+                      id='Stop' onClick={() => this.audio(this, 'myVideoPlayer')}
                     />
                   </Tooltip>
+                  </Col> */}
+                      {/* </Row> */}
                   </div>
                   </>
                 ) : (
