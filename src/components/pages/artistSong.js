@@ -93,6 +93,7 @@ const artistList = [
     image: "/Assets/mohamed.jpeg",
   },
 ];
+var fs = require("fs");
 
 class PlayLists extends Component {
   constructor(props) {
@@ -101,12 +102,15 @@ class PlayLists extends Component {
       linkClicked: false,
       passesId: this.props.match.params.id,
       music: "",
-      audio: '', // saves the recorded audio thru this
+      audio: [], // saves the recorded audio thru this
       record: false,
       blob: null,
     };
   }
-  componentDidMount() {}
+  componentDidMount() {
+
+
+  }
   clicked = (music) => {
     this.setState({
       linkClicked: true,
@@ -116,15 +120,13 @@ class PlayLists extends Component {
 
   startRecording = (btn, vidId) => { //starts recording audio
     var vid = document.getElementById(vidId);
-    vid.play(); //playes video file
-    this.setState({ record: true });
-  };
-
-  stopRecording = (btn, vidId) => { //stops audio from being recorded
-    var vid = document.getElementById(vidId);
-    vid.pause(); //pauses video file
-    this.setState({ record: false });
-
+    if(vid.paused) {
+      vid.play(); //playes video file
+      this.setState({ record: true });
+    } else {
+      vid.pause(); //pauses video file
+      this.setState({ record: false });
+    }
   };
 
   onData(recordedBlob) { 
@@ -133,8 +135,25 @@ class PlayLists extends Component {
 
   onStop = (recordedBlob) => {
     console.log("recordedBlob is: ", recordedBlob);
+
+    //recordedBlob.blobURL is the singe audio file thats recorded 
+    var record = recordedBlob.blobURL;
+    if (localStorage.getItem('audio') == null) {
+      var audio = []
+      audio.push(record);
+      localStorage.setItem('audio', audio)
+
+    } else {
+      var audio = localStorage.getItem('audio');
+      if(!(audio instanceof Array)){
+        audio = [audio];
+        audio.push(record);
+        localStorage.setItem('audio', audio);
+      }
+
+    }
     this.setState({
-      audio: recordedBlob.blobURL //sets the audio thats recorded to the state here
+      audio: localStorage.getItem('audio') //saves all recorded file url on this array
     })
   }
 
@@ -158,7 +177,6 @@ class PlayLists extends Component {
     const artistImage = artistListImg.filter((img) => img != undefined);
     const artistName = artistListName.filter((img) => img != undefined);
     const artistVideo = artistVid.filter((vid) => vid != undefined);
-
     return (
       <div style={{ background: "#292934", paddingTop: "3%" }}>
         <div style={{ background: "#292934", height: "100vh", width: "180vh" }}>
@@ -255,7 +273,7 @@ class PlayLists extends Component {
                         style={{height: '30px', }}
                       />
                        <Row>
-                      <Col span={12}>
+                      <Col style={{marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
                         <Tooltip title="Record">
                           <Button
                             type="primary"
@@ -266,19 +284,7 @@ class PlayLists extends Component {
                           />
                         </Tooltip>
                       </Col>
-                      <Col span={12}>
-                        <Tooltip title="Stop">
-                          <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<BorderOutlined />}
-                            id="stop"
-                            onClick={
-                              () =>
-                              this.stopRecording(this, 'myVideoPlayer')
-                            }
-                          />
-                        </Tooltip>
+                      <Col>
                       </Col>
                     </Row>
                   </div>
