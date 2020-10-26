@@ -101,7 +101,7 @@ class PlayLists extends Component {
       linkClicked: false,
       passesId: this.props.match.params.id,
       music: "",
-      audio: '',
+      audio: '', // saves the recorded audio thru this
       record: false,
       blob: null,
     };
@@ -114,27 +114,27 @@ class PlayLists extends Component {
     });
   };
 
-  startRecording = (btn, vidId) => {
+  startRecording = (btn, vidId) => { //starts recording audio
     var vid = document.getElementById(vidId);
-    vid.play();
+    vid.play(); //playes video file
     this.setState({ record: true });
   };
 
-  stopRecording = (btn, vidId) => {
+  stopRecording = (btn, vidId) => { //stops audio from being recorded
     var vid = document.getElementById(vidId);
-    vid.pause();
+    vid.pause(); //pauses video file
     this.setState({ record: false });
 
   };
 
-  onData(recordedBlob) {
+  onData(recordedBlob) { 
     console.log("chunk of real-time data is: ", recordedBlob);
   }
 
   onStop = (recordedBlob) => {
     console.log("recordedBlob is: ", recordedBlob);
     this.setState({
-      audio: recordedBlob.blobURL
+      audio: recordedBlob.blobURL //sets the audio thats recorded to the state here
     })
   }
 
@@ -243,7 +243,7 @@ class PlayLists extends Component {
                       width: "720px",
                     }}
                   >
-                    <Row>
+                   
                       <ReactMic
                         record={this.state.record}
                         className="sound-wave"
@@ -254,6 +254,7 @@ class PlayLists extends Component {
                         backgroundColor="#292934"
                         style={{height: '30px', }}
                       />
+                       <Row>
                       <Col span={12}>
                         <Tooltip title="Record">
                           <Button
