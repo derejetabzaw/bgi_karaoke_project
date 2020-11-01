@@ -6,7 +6,10 @@ import Artist from "./components/pages/artistSong";
 import SignUp from "./components/signup";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "./dashboard";
-import { Layout } from "antd";
+import { Layout, Button } from "antd";
+import {
+  LeftOutlined
+} from '@ant-design/icons';
 import SideBar from "./components/sidebar";
 
 const { Sider, Header } = Layout;
@@ -40,7 +43,18 @@ export default class MainRoute extends Component {
             >
               <SideBar />
             </Sider>
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} ></Header>
+            <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} >
+            {/* <LeftOutlined /> */}
+            <Button
+                            icon={<LeftOutlined />}
+                            style={{
+                              fontSize:'18px ',
+                              // marginRight:'0%'
+                            }}
+                            // onClick={() => this.startRecording(this, 'myVideoPlayer')}
+                          />
+
+            </Header>
 
             <Route
               path="/playList/:id"
