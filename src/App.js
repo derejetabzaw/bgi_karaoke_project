@@ -38,7 +38,7 @@ export default class MainRoute extends Component {
                 position: "fixed",
                 left: 0,
                 // color: "red"g
-                backgroundImage: `url(${"./pattern.jpg"})`,
+                // backgroundImage: `url(${"./pattern.jpg"})`,
               }}
             >
               <SideBar />
