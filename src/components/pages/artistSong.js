@@ -8,7 +8,7 @@ import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
 import axios from 'axios';
-import Record from './records.txt';
+// import Record from './records.txt';
 
 const artistList = [
   {
