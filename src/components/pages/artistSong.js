@@ -278,7 +278,7 @@ class PlayLists extends Component {
                         className="sound-wave"
                         onStop={this.onStop}
                         onData={this.onData}
-                        mimeType="audio/wav"  
+                        mimeType="audio/mp3"  
                         strokeColor="white"
                         backgroundColor="#292934"
                         style={{height: '30px', }}

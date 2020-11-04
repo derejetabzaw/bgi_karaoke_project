@@ -7,6 +7,9 @@ import SignUp from "./components/signup";
 import { Switch, Route } from "react-router-dom";
 import Dashboard from "./dashboard";
 import { Layout, Button } from "antd";
+import { Link } from "react-router-dom";
+// import Content from "../content";
+// import Artists from "./components/pages/artistSong";
 import {
   LeftOutlined
 } from '@ant-design/icons';
@@ -45,6 +48,10 @@ export default class MainRoute extends Component {
             </Sider>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%', height: '8.5%', background:'#001529'}} >
             {/* <LeftOutlined /> */}
+            {/* <Link
+                to={`/Artist/` }
+                render={<Artist  />}
+              >
             <Button
                             icon={<LeftOutlined />}
                             style={{
@@ -53,6 +60,7 @@ export default class MainRoute extends Component {
                             }}
                             // onClick={() => this.startRecording(this, 'myVideoPlayer')}
                           />
+                          </Link> */}
 
             </Header>
 
