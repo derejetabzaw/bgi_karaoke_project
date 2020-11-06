@@ -26,6 +26,7 @@ export default class MainRoute extends Component {
                     <Route path="/playList/:id" 
                         render={(props) => (<SelectedPlaylist {...props}/>) }
                     />
+                    {/* <Route path="/Artist/" exact component={<SelectedPlaylist />} ></Route> */}
                     <Route path="/Artist/:id"
                         render={(props) => (<Artist {...props}/>)}
                      />

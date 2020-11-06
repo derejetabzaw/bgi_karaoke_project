@@ -7,6 +7,8 @@ import "videojs-wavesurfer/dist/css/videojs.wavesurfer.css";
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
+import axios from 'axios';
+// import Record from './records.txt';
 
 const artistList = [
   {
@@ -155,6 +157,15 @@ class PlayLists extends Component {
     this.setState({
       audio: localStorage.getItem('audio') //saves all recorded file url on this array
     })
+
+    // this.onUpload(localStorage.getItem('audio'));
+  }
+
+  onUpload = file => {
+    let data = new FormData();
+    data.append('file', file)
+
+    // axios.post(Record, )
   }
 
   render() {
@@ -267,7 +278,7 @@ class PlayLists extends Component {
                         className="sound-wave"
                         onStop={this.onStop}
                         onData={this.onData}
-                        mimeType="audio/wav"  
+                        mimeType="audio/mp3"  
                         strokeColor="white"
                         backgroundColor="#292934"
                         style={{height: '30px', }}
@@ -294,7 +305,7 @@ class PlayLists extends Component {
               )}
             </div>
           </Modal>
-          <audio src={this.state.audio} id='audio' controls style={{marginLeft: '3.5%', width: '22%', paddingTop:'1%'}}></audio>
+          {/* <audio src={this.state.audio} id='audio' controls style={{marginLeft: '3.5%', width: '22%', paddingTop:'1%'}}></audio> */}
           {/* <video  id='vid' controls ></video> */}
         </div>
       </div>
