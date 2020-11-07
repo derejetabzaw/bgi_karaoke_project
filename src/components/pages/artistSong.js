@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, List, Card, Button, Tooltip, Row, Col } from "antd";
+import { Modal, List, Card, Button, Tooltip, Row, Col, Rate } from "antd";
 import { StopOutlined, BorderOutlined, AudioOutlined } from "@ant-design/icons";
 import "video.js/dist/video-js.min.css";
 import { ReactMic } from "react-mic";
@@ -7,7 +7,7 @@ import "videojs-wavesurfer/dist/css/videojs.wavesurfer.css";
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
-import axios from 'axios';
+import ReactStars from "react-rating-stars-component";
 // import Record from './records.txt';
 
 const artistList = [
@@ -107,6 +107,9 @@ class PlayLists extends Component {
       audio: [], // saves the recorded audio thru this
       record: false,
       blob: null,
+      confirmation: false,
+      raterModal: false,
+      rateVal: ''
     };
   }
   componentDidMount() {
@@ -127,10 +130,15 @@ class PlayLists extends Component {
       this.setState({ record: true });
     } else {
       vid.pause(); //pauses video file
-      this.setState({ record: false });
+      this.setState({ record: false, confirmation: true});
     }
   };
-
+ ratingChanged = (newRating) => {
+    console.log(newRating);
+    this.setState({
+      rateVal: newRating
+    })
+  };
   onData(recordedBlob) { 
     console.log("chunk of real-time data is: ", recordedBlob);
   }
@@ -157,8 +165,16 @@ class PlayLists extends Component {
     this.setState({
       audio: localStorage.getItem('audio') //saves all recorded file url on this array
     })
+    console.log("recordedBlob 00000000is: ", localStorage.getItem('audio'));
+
 
     // this.onUpload(localStorage.getItem('audio'));
+  }
+  rater = () => {
+    this.setState({
+      raterModal: true,
+      confirmation: false
+    })
   }
 
   onUpload = file => {
@@ -305,8 +321,46 @@ class PlayLists extends Component {
               )}
             </div>
           </Modal>
-          {/* <audio src={this.state.audio} id='audio' controls style={{marginLeft: '3.5%', width: '22%', paddingTop:'1%'}}></audio> */}
-          {/* <video  id='vid' controls ></video> */}
+          <Modal
+          title="confirmation"
+          visible={this.state.confirmation}
+          onOk={this.rater}
+          onCancel={() =>
+            this.setState({
+              confirmation: false,
+            })
+          }
+          okText="Yes"
+          cancelText="Cancel"
+        >
+          <p>Do you want to terminate the game?</p>
+        </Modal>
+        <Modal
+          title="confirmation"
+          visible={this.state.raterModal}
+          onCancel={() =>
+            this.setState({
+              raterModal: false,
+            })
+          }
+          // cancelText="Ok"
+          footer = {
+            null
+          }
+        >
+          <p>Your result</p>
+          <ReactStars
+            count={5}
+            onChange={this.ratingChanged}
+            size={34}
+            value={this.state.rateVal}
+            isHalf={true}
+            emptyIcon={<i className="far fa-star"></i>}
+            halfIcon={<i className="fa fa-star-half-alt"></i>}
+            fullIcon={<i className="fa fa-star"></i>}
+            activeColor="#ffd700"
+          />
+        </Modal>
         </div>
       </div>
     );
