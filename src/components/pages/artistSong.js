@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { Modal, List, Card, Button, Tooltip, Row, Col, Rate } from "antd";
-import { StopOutlined, BorderOutlined, AudioOutlined } from "@ant-design/icons";
+import { Modal, List, Card, Button, Tooltip, Row, Col,  Alert } from "antd";
+import {
+  StopOutlined,
+  BorderOutlined,
+  UploadOutlined,
+  AudioOutlined,
+  ReloadOutlined,
+} from "@ant-design/icons";
 import "video.js/dist/video-js.min.css";
 import { ReactMic } from "react-mic";
 import "videojs-wavesurfer/dist/css/videojs.wavesurfer.css";
@@ -109,13 +115,10 @@ class PlayLists extends Component {
       blob: null,
       confirmation: false,
       raterModal: false,
-      rateVal: ''
+      rateVal: "",
     };
   }
-  componentDidMount() {
-
-
-  }
+  componentDidMount() {}
   clicked = (music) => {
     this.setState({
       linkClicked: true,
@@ -123,66 +126,98 @@ class PlayLists extends Component {
     });
   };
 
-  startRecording = (btn, vidId) => { //starts recording audio
+  startRecording = (btn, vidId) => {
+    //starts recording audio
     var vid = document.getElementById(vidId);
-    if(vid.paused) {
+    console.log(vid, "visss-----");
+
+    if (vid.paused) {
       vid.play(); //playes video file
       this.setState({ record: true });
     } else {
       vid.pause(); //pauses video file
-      this.setState({ record: false, confirmation: true});
+      this.setState({ record: false });
     }
   };
- ratingChanged = (newRating) => {
-    console.log(newRating);
-    this.setState({
-      rateVal: newRating
-    })
+
+  resetRecording = (btn, vidId) => {
+    var vid = document.getElementById(vidId);
+    console.log(vid, "visss");
+    vid.pause();
+    vid.load();
+    this.setState({ record: false });
+    // vid.play();
   };
-  onData(recordedBlob) { 
+
+  ratingChanged = (newRating) => {
+    console.log(newRating);
+    // switch (newRating) {
+    //   case value:
+
+    //     break;
+
+    //   default:
+    //     break;
+    // }
+    this.setState({
+      rateVal: newRating ? newRating : 3.5,
+    });
+  };
+  onData(recordedBlob) {
     console.log("chunk of real-time data is: ", recordedBlob);
   }
 
   onStop = (recordedBlob) => {
     console.log("recordedBlob is: ", recordedBlob);
 
-    //recordedBlob.blobURL is the singe audio file thats recorded 
+    //recordedBlob.blobURL is the singe audio file thats recorded
     var record = recordedBlob.blobURL;
-    if (localStorage.getItem('audio') == null) {
-      var audio = []
+    if (localStorage.getItem("audio") == null) {
+      var audio = [];
       audio.push(record);
-      localStorage.setItem('audio', audio)
-
+      localStorage.setItem("audio", audio);
     } else {
-      var audio = localStorage.getItem('audio');
-      if(!(audio instanceof Array)){
+      var audio = localStorage.getItem("audio");
+      if (!(audio instanceof Array)) {
         audio = [audio];
         audio.push(record);
-        localStorage.setItem('audio', audio);
+        localStorage.setItem("audio", audio);
       }
-
     }
     this.setState({
-      audio: localStorage.getItem('audio') //saves all recorded file url on this array
-    })
-    console.log("recordedBlob 00000000is: ", localStorage.getItem('audio'));
-
+      audio: localStorage.getItem("audio"), //saves all recorded file url on this array
+    });
+    console.log("recordedBlob 00000000is: ", localStorage.getItem("audio"));
 
     // this.onUpload(localStorage.getItem('audio'));
-  }
+  };
   rater = () => {
     this.setState({
       raterModal: true,
-      confirmation: false
-    })
-  }
+      confirmation: false,
+    });
+  };
 
-  onUpload = file => {
-    let data = new FormData();
-    data.append('file', file)
+  uploadRecord = (btn, vidId) => {
+    var vid = document.getElementById(vidId);
 
-    // axios.post(Record, )
-  }
+    vid.pause(); //pauses video file
+    if (vid.paused) {
+      alert('You need to record something inorder to submit your result')
+    } else {
+      this.setState({
+        confirmation: true,
+        record: false,
+      });     
+    }
+  };
+
+  // onUpload = (file) => {
+  //   let data = new FormData();
+  //   data.append("file", file);
+
+  //   // axios.post(Record, )
+  // };
 
   render() {
     const name = artistList.filter((playList) => playList.id);
@@ -278,7 +313,7 @@ class PlayLists extends Component {
             >
               {this.state.linkClicked ? (
                 <>
-                  <video id="myVideoPlayer" width="720" height="400" >
+                  <video id="myVideoPlayer" width="720" height="400">
                     <source src={this.state.music} type="video/mp4" />
                   </video>
                   <div
@@ -288,30 +323,61 @@ class PlayLists extends Component {
                       width: "720px",
                     }}
                   >
-                   
-                      <ReactMic
-                        record={this.state.record}
-                        className="sound-wave"
-                        onStop={this.onStop}
-                        onData={this.onData}
-                        mimeType="audio/mp3"  
-                        strokeColor="white"
-                        backgroundColor="#292934"
-                        style={{height: '30px', }}
-                      />
-                       <Row>
-                      <Col style={{marginLeft: 'auto', marginRight: 'auto', display: 'block'}}>
-                        <Tooltip title="Record">
+                    <ReactMic
+                      record={this.state.record}
+                      className="sound-wave"
+                      onStop={this.onStop}
+                      onData={this.onData}
+                      mimeType="audio/mp3"
+                      strokeColor="white"
+                      backgroundColor="#292934"
+                      style={{ height: "30px" }}
+                    />
+                    <Row>
+                      <Col
+                        style={{
+                          marginLeft: "41%",
+                          marginRight: "auto",
+                          display: "block",
+                        }}
+                      >
+                        <Tooltip title="Record/Stop">
                           <Button
                             type="primary"
                             shape="circle"
                             icon={<AudioOutlined />}
                             id="start"
-                            onClick={() => this.startRecording(this, 'myVideoPlayer')}
+                            onClick={() =>
+                              this.startRecording(this, "myVideoPlayer")
+                            }
                           />
                         </Tooltip>
                       </Col>
-                      <Col>
+                      <Col style={{ marginLeft: "-38%", marginRight: "auto" }}>
+                        <Tooltip title="Submit">
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<UploadOutlined />}
+                            id="start"
+                            onClick={() =>
+                              this.uploadRecord(this, "myVideoPlayer")
+                            }
+                          />
+                        </Tooltip>
+                      </Col>
+                      <Col style={{ marginLeft: "-38%", marginRight: "auto" }}>
+                        <Tooltip title="Reset">
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<ReloadOutlined />}
+                            id="start"
+                            onClick={() =>
+                              this.resetRecording(this, "myVideoPlayer")
+                            }
+                          />
+                        </Tooltip>
                       </Col>
                     </Row>
                   </div>
@@ -322,45 +388,43 @@ class PlayLists extends Component {
             </div>
           </Modal>
           <Modal
-          title="confirmation"
-          visible={this.state.confirmation}
-          onOk={this.rater}
-          onCancel={() =>
-            this.setState({
-              confirmation: false,
-            })
-          }
-          okText="Yes"
-          cancelText="Cancel"
-        >
-          <p>Do you want to terminate the game?</p>
-        </Modal>
-        <Modal
-          title="confirmation"
-          visible={this.state.raterModal}
-          onCancel={() =>
-            this.setState({
-              raterModal: false,
-            })
-          }
-          // cancelText="Ok"
-          footer = {
-            null
-          }
-        >
-          <p>Your result</p>
-          <ReactStars
-            count={5}
-            onChange={this.ratingChanged}
-            size={34}
-            value={this.state.rateVal}
-            isHalf={true}
-            emptyIcon={<i className="far fa-star"></i>}
-            halfIcon={<i className="fa fa-star-half-alt"></i>}
-            fullIcon={<i className="fa fa-star"></i>}
-            activeColor="#ffd700"
-          />
-        </Modal>
+            title={<b>Confirmation</b>}
+            visible={this.state.confirmation}
+            onOk={this.rater}
+            onCancel={() =>
+              this.setState({
+                confirmation: false,
+              })
+            }
+            okText="Yes"
+            cancelText="Cancel"
+          >
+            <p>Do you want to terminate the game and view your result?</p>
+          </Modal>
+          <Modal
+            title={<b>Result</b>}
+            visible={this.state.raterModal}
+            onCancel={() =>
+              this.setState({
+                raterModal: false,
+              })
+            }
+            // cancelText="Ok"
+            footer={null}
+          >
+            <p>Your result</p>
+            <ReactStars
+              count={5}
+              onChange={this.ratingChanged}
+              size={34}
+              value={this.state.rateVal}
+              isHalf={true}
+              emptyIcon={<i className="far fa-star"></i>}
+              halfIcon={<i className="fa fa-star-half-alt"></i>}
+              fullIcon={<i className="fa fa-star"></i>}
+              activeColor="#ffd700"
+            />
+          </Modal>
         </div>
       </div>
     );
