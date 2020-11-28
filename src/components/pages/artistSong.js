@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, List, Card, Button, Tooltip, Row, Col,  Alert } from "antd";
+import { Modal, List, Card, Button, Tooltip, Row, Col, Alert } from "antd";
 import {
   StopOutlined,
   BorderOutlined,
@@ -200,15 +200,19 @@ class PlayLists extends Component {
 
   uploadRecord = (btn, vidId) => {
     var vid = document.getElementById(vidId);
-
+    console.log("dattaaa", vid);
     vid.pause(); //pauses video file
-    if (vid.paused) {
+    if (vid.paused && this.state.record == '') {
       alert('You need to record something inorder to submit your result')
-    } else {
+    } 
+    else if (vid.paused) {
+      this.setState({ record: false, confirmation: true });
+    }
+    else {
       this.setState({
-        confirmation: true,
-        record: false,
-      });     
+        confirmation: false,
+        record: true,
+      });
     }
   };
 
