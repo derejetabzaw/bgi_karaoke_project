@@ -110,6 +110,7 @@ class PlayLists extends Component {
       linkClicked: false,
       passesId: this.props.match.params.id,
       music: "",
+      url: "",
       audio: [], // saves the recorded audio thru this
       record: false,
       blob: null,
@@ -164,7 +165,7 @@ class PlayLists extends Component {
     });
   };
   onData(recordedBlob) {
-    console.log("chunk of real-time data is: ", recordedBlob);
+    // console.log("chunk of real-time data is: ", recordedBlob);
   }
 
   onStop = (recordedBlob) => {
@@ -172,6 +173,9 @@ class PlayLists extends Component {
 
     //recordedBlob.blobURL is the singe audio file thats recorded
     var record = recordedBlob.blobURL;
+    this.setState({
+      url: record
+    })
     if (localStorage.getItem("audio") == null) {
       var audio = [];
       audio.push(record);
@@ -224,6 +228,7 @@ class PlayLists extends Component {
   // };
 
   render() {
+    console.log(this.state.url, 'yyyyy', this.state.audio)
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
