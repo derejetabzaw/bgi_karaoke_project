@@ -220,15 +220,8 @@ class PlayLists extends Component {
     }
   };
 
-  // onUpload = (file) => {
-  //   let data = new FormData();
-  //   data.append("file", file);
-
-  //   // axios.post(Record, )
-  // };
-
   render() {
-    console.log(this.state.url, 'yyyyy', this.state.audio)
+    console.log('this is the recorded file', this.state.url)
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
