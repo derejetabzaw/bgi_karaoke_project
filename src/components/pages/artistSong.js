@@ -15,6 +15,7 @@ import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
 import ReactStars from "react-rating-stars-component";
 // import Record from './records.txt';
+import axios from 'axios';
 
 const artistList = [
   {
@@ -165,7 +166,7 @@ class PlayLists extends Component {
     });
   };
   onData(recordedBlob) {
-    // console.log("chunk of real-time data is: ", recordedBlob);
+    console.log("chunk of real-time data is: ", recordedBlob);
   }
 
   onStop = (recordedBlob) => {
@@ -173,9 +174,25 @@ class PlayLists extends Component {
 
     //recordedBlob.blobURL is the singe audio file thats recorded
     var record = recordedBlob.blobURL;
+
+    const data = {
+      "audioURL": record
+    }
+    console.log('heyyy ', data)
+
+    axios.post('https://jsonplaceholder.typicode.com/posts', data)
+      .then( data => {
+        console.log('heyyy data', data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
     this.setState({
       url: record
     })
+
+
     if (localStorage.getItem("audio") == null) {
       var audio = [];
       audio.push(record);
@@ -221,7 +238,7 @@ class PlayLists extends Component {
   };
 
   render() {
-    console.log('this is the recorded file', this.state.url)
+    console.log('this is the recorded file', this.state.url,'uuuu', this.state.audio)
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
@@ -330,7 +347,7 @@ class PlayLists extends Component {
                       className="sound-wave"
                       onStop={this.onStop}
                       onData={this.onData}
-                      mimeType="audio/mp3"
+                      // mimeType="audio/mp3"
                       strokeColor="white"
                       backgroundColor="#292934"
                       style={{ height: "30px" }}
