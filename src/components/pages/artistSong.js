@@ -8,7 +8,7 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import "video.js/dist/video-js.min.css";
-import { ReactMic } from "react-mic";
+import { ReactMic } from "@cleandersonlobo/react-mic";
 import "videojs-wavesurfer/dist/css/videojs.wavesurfer.css";
 import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
@@ -178,14 +178,32 @@ class PlayLists extends Component {
     const data = {
       "audioURL": record
     }
+
+    const config = {
+      headers: { 'content-type': 'multipart/form-data' }
+      // headers: { 'content-type': 'application/form-data' }
+      
+    }
+
     console.log('heyyy ', data)
 
-    axios.post('https://jsonplaceholder.typicode.com/posts', data)
-      .then( data => {
+    var form = new FormData();
+    form.append('audio', record);
+    console.log('FORM: ', form)
+
+
+    // 
+    axios.post('http://localhost:8000/karaoke/recordings/', form, config)
+      .then( response => {
         console.log('heyyy data', data)
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        if (!error.response) {
+            // network error
+            this.errorStatus = 'Error: Network Error';
+        } else {
+            this.errorStatus = error.response.data.message;
+        }
       })
 
     this.setState({
@@ -347,7 +365,7 @@ class PlayLists extends Component {
                       className="sound-wave"
                       onStop={this.onStop}
                       onData={this.onData}
-                      // mimeType="audio/mp3"
+                      mimeType="audio/mp3"
                       strokeColor="white"
                       backgroundColor="#292934"
                       style={{ height: "30px" }}

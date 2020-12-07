@@ -2,7 +2,9 @@
   "name": "lyrics",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://api.pluralsight.com:8000",
   "dependencies": {
+    "@cleandersonlobo/react-mic": "^1.2.0",
     "@craco/craco": "^5.7.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
