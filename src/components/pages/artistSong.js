@@ -15,7 +15,7 @@ import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
 import ReactStars from "react-rating-stars-component";
 // import Record from './records.txt';
-import axios from 'axios';
+import axios , { post } from 'axios';
 
 const artistList = [
   {
@@ -179,25 +179,24 @@ class PlayLists extends Component {
       "audioURL": record
     }
 
-    const config = {
-      headers: { 'content-type': 'multipart/form-data' }
-      // headers: { 'content-type': 'application/form-data' }
-      
-    }
+
 
     console.log('heyyy ', data)
 
     var form = new FormData();
-    form.append('audio', record);
-    console.log('FORM: ', form)
+    form.append('audio', recordedBlob.blob);
+
+    console.log('Rec: ', record)
 
 
-    // 
-    axios.post('http://localhost:8000/karaoke/recordings/', form, config)
-      .then( response => {
+
+
+
+    axios.post('http://localhost:8000/karaoke/recordings/', form, {
+      headers: { 'content-type': 'multipart/form-data' }
+      }).then( response => {
         console.log('heyyy data', data)
-      })
-      .catch(error => {
+      }).catch(error => {
         if (!error.response) {
             // network error
             this.errorStatus = 'Error: Network Error';
@@ -365,7 +364,7 @@ class PlayLists extends Component {
                       className="sound-wave"
                       onStop={this.onStop}
                       onData={this.onData}
-                      mimeType="audio/mp3"
+                      mimeType="audio/wav"
                       strokeColor="white"
                       backgroundColor="#292934"
                       style={{ height: "30px" }}
