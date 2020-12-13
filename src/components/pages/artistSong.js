@@ -118,6 +118,7 @@ class PlayLists extends Component {
       confirmation: false,
       raterModal: false,
       rateVal: "",
+      // confidenceState: ""
     };
   }
   componentDidMount() {}
@@ -127,6 +128,18 @@ class PlayLists extends Component {
       music: music,
     });
   };
+
+  componentDidUpdate(prevState, prevProps){
+    if(prevProps.url != this.state.url){
+      axios.get('http://localhost:8000/karaoke/recordings/').then(resp => {
+          this.setState({
+            confidenceState: resp.data //this is the confidence state  being set to the response replace it with the correct path
+          })
+          this.ratingChanged();
+      }); 
+
+    }
+  }
 
   startRecording = (btn, vidId) => {
     //starts recording audio
@@ -151,19 +164,44 @@ class PlayLists extends Component {
     // vid.play();
   };
 
-  ratingChanged = (newRating) => {
-    console.log(newRating);
-    // switch (newRating) {
-    //   case value:
-
-    //     break;
-
-    //   default:
-    //     break;
-    // }
-    this.setState({
-      rateVal: newRating ? newRating : 3.5,
-    });
+  ratingChanged = () => {
+    if(this.state.confidenceState <= 10){
+      this.setState({
+        rateVal: 1
+      })  
+    }else if(this.state.confidenceState >= 10 && this.state.confidenceState <= 20){
+      this.setState({
+        rateVal: 1.5
+      })  
+    }else if(this.state.confidenceState >= 20 && this.state.confidenceState <= 30){
+      this.setState({
+        rateVal: 2
+      })  
+    }else if(this.state.confidenceState >= 30 && this.state.confidenceState <= 40){
+      this.setState({
+        rateVal: 2.5
+      })  
+    }else if(this.state.confidenceState >= 40 && this.state.confidenceState <= 50){
+      this.setState({
+        rateVal: 3
+      })  
+    }else if(this.state.confidenceState >= 50 && this.state.confidenceState <= 60){
+      this.setState({
+        rateVal: 3.5
+      })  
+    }else if(this.state.confidenceState >= 70 && this.state.confidenceState <= 80){
+      this.setState({
+        rateVal: 4
+      })  
+    }else if(this.state.confidenceState >= 80 && this.state.confidenceState <= 90){
+      this.setState({
+        rateVal: 4.5
+      })  
+    }else if(this.state.confidenceState >= 90 && this.state.confidenceState <= 100){
+      this.setState({
+        rateVal: 5
+      })  
+    }
   };
   onData(recordedBlob) {
     console.log("chunk of real-time data is: ", recordedBlob);
@@ -179,8 +217,6 @@ class PlayLists extends Component {
       "audioURL": record
     }
 
-
-
     console.log('heyyy ', data)
 
     var form = new FormData();
@@ -188,14 +224,10 @@ class PlayLists extends Component {
 
     console.log('Rec: ', record)
 
-
-
-
-
     axios.post('http://localhost:8000/karaoke/recordings/', form, {
       headers: { 'content-type': 'multipart/form-data' }
       }).then( response => {
-        console.log('heyyy data', data)
+        console.log('heyyy data ---->', data)
       }).catch(error => {
         if (!error.response) {
             // network error
@@ -255,7 +287,7 @@ class PlayLists extends Component {
   };
 
   render() {
-    console.log('this is the recorded file', this.state.url,'uuuu', this.state.audio)
+    console.log('this is the recorded file', this.state.url,'uuuu', this.state.rateVal)
     const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
@@ -451,7 +483,7 @@ class PlayLists extends Component {
             <p>Your result</p>
             <ReactStars
               count={5}
-              onChange={this.ratingChanged}
+              // onChange={this.ratingChanged}
               size={34}
               value={this.state.rateVal}
               isHalf={true}
