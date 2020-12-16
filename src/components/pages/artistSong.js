@@ -104,6 +104,9 @@ const artistList = [
 ];
 var fs = require("fs");
 
+
+
+
 class PlayLists extends Component {
   constructor(props) {
     super(props);
@@ -129,17 +132,28 @@ class PlayLists extends Component {
     });
   };
 
-  componentDidUpdate(prevState, prevProps){
-    if(prevProps.url != this.state.url){
-      axios.get('http://localhost:8000/karaoke/recordings/').then(resp => {
-          this.setState({
-            confidenceState: resp.data //this is the confidence state  being set to the response replace it with the correct path
-          })
+
+
+  componentDidUpdate(prevProps,prevState){
+    console.log(prevProps,"prevProps:")
+    console.log(this.state,"State:")
+    // if(this.state.raterModal != false || this.state.rateVal == "" || this.state.confirmation != true || this.state.audio != null){
+    if(this.state.url !="" && this.state.confirmation == true){
+      axios.get('http://localhost:8000/karaoke/index/')
+        .then(resp => {
+          console.log(resp.data,"Response-Data:")
+          this.setState({confidenceState: resp.data}) 
+            //this is the confidence state  being set to the response replace it with the correct path
           this.ratingChanged();
+
+      }).catch(function (error) {
+        console.log(error,"error_getting"); 
       }); 
 
     }
   }
+  
+
 
   startRecording = (btn, vidId) => {
     //starts recording audio
@@ -288,7 +302,15 @@ class PlayLists extends Component {
 
   render() {
     console.log('this is the recorded file', this.state.url,'uuuu', this.state.rateVal)
-    const name = artistList.filter((playList) => playList.id);
+    console.log(this.state.confidenceState,"Confidence_State")
+    
+    
+  
+   
+
+
+
+   const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
         return list.image;
