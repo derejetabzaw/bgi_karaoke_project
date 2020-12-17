@@ -39,7 +39,7 @@ def song_rater(rec_audio):
 	# Fingerprint all the mp3's in the directory given which is mp3
 	djv.fingerprint_directory(fingerprint_dir, [".mp3"])
 	song = djv.recognize(FileRecognizer, rec_audio)
-	# print("From file we recognized: %s\n" % song)
+	print("From file we recognized: %s\n" % song)
 
 	return song['song_name'], song['confidence']
 
