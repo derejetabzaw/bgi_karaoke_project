@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Modal, List, Card, Button, Tooltip, Row, Col, Alert } from "antd";
+import { Modal, List, Card, Button, Tooltip, Row, Col, Spin } from "antd";
 import {
-  StopOutlined,
-  BorderOutlined,
   UploadOutlined,
   AudioOutlined,
   ReloadOutlined,
@@ -14,8 +12,7 @@ import "./pageStyle.css";
 import Daw from "./Videos/dawit_melese_f.mp4";
 import Ted from "./Videos/teddy_afro_f.mp4";
 import ReactStars from "react-rating-stars-component";
-// import Record from './records.txt';
-import axios , { post } from 'axios';
+import axios, { post } from "axios";
 
 const artistList = [
   {
@@ -104,9 +101,6 @@ const artistList = [
 ];
 var fs = require("fs");
 
-
-
-
 class PlayLists extends Component {
   constructor(props) {
     super(props);
@@ -118,10 +112,12 @@ class PlayLists extends Component {
       audio: [], // saves the recorded audio thru this
       record: false,
       blob: null,
+      loading: false,
       confirmation: false,
       raterModal: false,
       rateVal: "",
-      // confidenceState: ""
+      confidenceState: "34",
+      vidID: "",
     };
   }
   componentDidMount() {}
@@ -132,37 +128,33 @@ class PlayLists extends Component {
     });
   };
 
-
-
-  componentDidUpdate(prevProps,prevState){
-    console.log(prevProps,"prevProps:")
-    console.log(this.state,"State:")
+  componentDidUpdate(prevProps, prevState) {
+    console.log(prevProps, "prevProps:");
+    console.log(this.state, "State:");
     // if(this.state.raterModal != false || this.state.rateVal == "" || this.state.confirmation != true || this.state.audio != null){
-    if(this.state.url !="" && this.state.confirmation == true){
-      axios.get('http://localhost:8000/karaoke/index/')
-        .then(resp => {
-          console.log(resp.data,"Response-Data:")
-          this.setState({confidenceState: resp.data}) 
-            //this is the confidence state  being set to the response replace it with the correct path
+    if (this.state.url != "" && this.state.confirmation == true) {
+      axios
+        .get("http://localhost:8000/karaoke/index/")
+        .then((resp) => {
+          console.log(resp.data, "Response-Data:");
+          this.setState({ confidenceState: resp.data, loading: true });
+          //this is the confidence state  being set to the response replace it with the correct path
           this.ratingChanged();
-
-      }).catch(function (error) {
-        console.log(error,"error_getting"); 
-      }); 
-
+        })
+        .catch(function (error) {
+          console.log(error, "error_getting");
+        });
     }
   }
-  
-
 
   startRecording = (btn, vidId) => {
     //starts recording audio
     var vid = document.getElementById(vidId);
-    console.log(vid, "visss-----");
+    console.log(vid, btn, "visss-----");
 
     if (vid.paused) {
       vid.play(); //playes video file
-      this.setState({ record: true });
+      this.setState({ record: true, vidID: btn.state.passesId });
     } else {
       vid.pause(); //pauses video file
       this.setState({ record: false });
@@ -179,42 +171,66 @@ class PlayLists extends Component {
   };
 
   ratingChanged = () => {
-    if(this.state.confidenceState <= 10){
+    if (this.state.confidenceState <= 10) {
       this.setState({
-        rateVal: 1
-      })  
-    }else if(this.state.confidenceState >= 10 && this.state.confidenceState <= 20){
+        rateVal: 1,
+      });
+    } else if (
+      this.state.confidenceState >= 10 &&
+      this.state.confidenceState <= 20
+    ) {
       this.setState({
-        rateVal: 1.5
-      })  
-    }else if(this.state.confidenceState >= 20 && this.state.confidenceState <= 30){
+        rateVal: 1.5,
+      });
+    } else if (
+      this.state.confidenceState >= 20 &&
+      this.state.confidenceState <= 30
+    ) {
       this.setState({
-        rateVal: 2
-      })  
-    }else if(this.state.confidenceState >= 30 && this.state.confidenceState <= 40){
+        rateVal: 2,
+      });
+    } else if (
+      this.state.confidenceState >= 30 &&
+      this.state.confidenceState <= 40
+    ) {
       this.setState({
-        rateVal: 2.5
-      })  
-    }else if(this.state.confidenceState >= 40 && this.state.confidenceState <= 50){
+        rateVal: 2.5,
+      });
+    } else if (
+      this.state.confidenceState >= 40 &&
+      this.state.confidenceState <= 50
+    ) {
       this.setState({
-        rateVal: 3
-      })  
-    }else if(this.state.confidenceState >= 50 && this.state.confidenceState <= 60){
+        rateVal: 3,
+      });
+    } else if (
+      this.state.confidenceState >= 50 &&
+      this.state.confidenceState <= 60
+    ) {
       this.setState({
-        rateVal: 3.5
-      })  
-    }else if(this.state.confidenceState >= 70 && this.state.confidenceState <= 80){
+        rateVal: 3.5,
+      });
+    } else if (
+      this.state.confidenceState >= 70 &&
+      this.state.confidenceState <= 80
+    ) {
       this.setState({
-        rateVal: 4
-      })  
-    }else if(this.state.confidenceState >= 80 && this.state.confidenceState <= 90){
+        rateVal: 4,
+      });
+    } else if (
+      this.state.confidenceState >= 80 &&
+      this.state.confidenceState <= 90
+    ) {
       this.setState({
-        rateVal: 4.5
-      })  
-    }else if(this.state.confidenceState >= 90 && this.state.confidenceState <= 100){
+        rateVal: 4.5,
+      });
+    } else if (
+      this.state.confidenceState >= 90 &&
+      this.state.confidenceState <= 100
+    ) {
       this.setState({
-        rateVal: 5
-      })  
+        rateVal: 5,
+      });
     }
   };
   onData(recordedBlob) {
@@ -228,33 +244,36 @@ class PlayLists extends Component {
     var record = recordedBlob.blobURL;
 
     const data = {
-      "audioURL": record
-    }
+      audioURL: record,
+    };
 
-    console.log('heyyy ', data)
+    console.log("heyyy ", data);
 
     var form = new FormData();
-    form.append('audio', recordedBlob.blob);
+    form.append("audio", recordedBlob.blob);
+    form.append("Index", this.state.vidID);
 
-    console.log('Rec: ', record)
+    console.log("Rec: ", record, form, this.state.vidID);
 
-    axios.post('http://localhost:8000/karaoke/recordings/', form, {
-      headers: { 'content-type': 'multipart/form-data' }
-      }).then( response => {
-        console.log('heyyy data ---->', data)
-      }).catch(error => {
-        if (!error.response) {
-            // network error
-            this.errorStatus = 'Error: Network Error';
-        } else {
-            this.errorStatus = error.response.data.message;
-        }
+    axios
+      .post("http://localhost:8000/karaoke/recordings/", form, {
+        headers: { "content-type": "multipart/form-data" },
       })
+      .then((response) => {
+        console.log("heyyy data ---->", data);
+      })
+      .catch((error) => {
+        if (!error.response) {
+          // network error
+          this.errorStatus = "Error: Network Error";
+        } else {
+          this.errorStatus = error.response.data.message;
+        }
+      });
 
     this.setState({
-      url: record
-    })
-
+      url: record,
+    });
 
     if (localStorage.getItem("audio") == null) {
       var audio = [];
@@ -279,6 +298,7 @@ class PlayLists extends Component {
     this.setState({
       raterModal: true,
       confirmation: false,
+      loading: false,
     });
   };
 
@@ -286,13 +306,11 @@ class PlayLists extends Component {
     var vid = document.getElementById(vidId);
     console.log("dattaaa", vid);
     vid.pause(); //pauses video file
-    if (vid.paused && this.state.record == '') {
-      alert('You need to record something inorder to submit your result')
-    } 
-    else if (vid.paused) {
+    if (vid.paused && this.state.record == "") {
+      alert("You need to record something inorder to submit your result");
+    } else if (vid.paused) {
       this.setState({ record: false, confirmation: true });
-    }
-    else {
+    } else {
       this.setState({
         confirmation: false,
         record: true,
@@ -301,16 +319,15 @@ class PlayLists extends Component {
   };
 
   render() {
-    console.log('this is the recorded file', this.state.url,'uuuu', this.state.rateVal)
-    console.log(this.state.confidenceState,"Confidence_State")
-    
-    
-  
-   
+    console.log(
+      "this is the recorded file",
+      this.state.url,
+      "uuuu",
+      this.state.rateVal
+    );
+    console.log(this.state.confidenceState, "Confidence_State");
 
-
-
-   const name = artistList.filter((playList) => playList.id);
+    const name = artistList.filter((playList) => playList.id);
     const artistListImg = name.map((list) => {
       if (list.id == this.state.passesId) {
         return list.image;
@@ -329,6 +346,7 @@ class PlayLists extends Component {
     const artistImage = artistListImg.filter((img) => img != undefined);
     const artistName = artistListName.filter((img) => img != undefined);
     const artistVideo = artistVid.filter((vid) => vid != undefined);
+    console.log("nameee", name, artistVideo);
     return (
       <div style={{ background: "#292934", paddingTop: "3%" }}>
         <div style={{ background: "#292934", height: "100vh", width: "180vh" }}>
@@ -491,30 +509,44 @@ class PlayLists extends Component {
           >
             <p>Do you want to terminate the game and view your result?</p>
           </Modal>
-          <Modal
-            title={<b>Result</b>}
-            visible={this.state.raterModal}
-            onCancel={() =>
-              this.setState({
-                raterModal: false,
-              })
-            }
-            // cancelText="Ok"
-            footer={null}
-          >
-            <p>Your result</p>
-            <ReactStars
-              count={5}
-              // onChange={this.ratingChanged}
-              size={34}
-              value={this.state.rateVal}
-              isHalf={true}
-              emptyIcon={<i className="far fa-star"></i>}
-              halfIcon={<i className="fa fa-star-half-alt"></i>}
-              fullIcon={<i className="fa fa-star"></i>}
-              activeColor="#ffd700"
-            />
-          </Modal>
+          {this.state.loading && !this.state.confirmation ? (
+            (console.log("is spinning"),
+            (
+              <Spin
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  display: "block",
+                }}
+              />
+            ))
+          ) : (
+            // []
+            <Modal
+              title={<b>Result</b>}
+              visible={this.state.raterModal}
+              onCancel={() =>
+                this.setState({
+                  raterModal: false,
+                })
+              }
+              // cancelText="Ok"
+              footer={null}
+            >
+              <p>Your result</p>
+              <ReactStars
+                count={5}
+                // onChange={this.ratingChanged}
+                size={34}
+                value={this.state.rateVal}
+                isHalf={true}
+                emptyIcon={<i className="far fa-star"></i>}
+                halfIcon={<i className="fa fa-star-half-alt"></i>}
+                fullIcon={<i className="fa fa-star"></i>}
+                activeColor="#ffd700"
+              />
+            </Modal>
+          )}
         </div>
       </div>
     );

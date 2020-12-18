@@ -12,8 +12,8 @@ import {
   Menu,
   Col,
 } from "antd";
-import {Link} from 'react-router-dom';
-import Dashboard from '../dashboard';
+import { Link } from "react-router-dom";
+import Dashboard from "../dashboard";
 import { withRouter } from "react-router-dom";
 // import Main from "./components/MainRoutes";
 
@@ -28,27 +28,27 @@ class Signup extends Component {
     };
   }
   componentDidMount() {}
-  
+
   navigate = () => {
-    
     this.props.history.push("/dashboard");
-  }
+  };
 
   render() {
+    console.log("heighttt", window.innerHeight - 140);
     return (
-      <div style={{paddingTop: '2%'}}>
+      <div style={{ paddingTop: "2%" }}>
         <Card
-        //   bordered={false}
+          //   bordered={false}
           style={{
             maxWidth: window.innerWidth - 910,
-            height: window.innerHeight - 110,
+            // height: window.innerHeight - 110,
+            height: "860px",
             display: "block",
             margin: "auto",
             // paddingTop: '3%',
-            background: '#eeeeee',
-            
-            // marginRight: "auto",
+            background: "#eeeeee",
 
+            // marginRight: "auto",
           }}
         >
           <Tabs defaultActiveKey="2" centered>
@@ -83,9 +83,16 @@ class Signup extends Component {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
 
-                <Form.Item style={{paddingTop: '3%'}}>
-                  <Button type="primary" htmlType="submit"
-                  style={{width: '70%', marginLeft: 'auto', marginRight: 'auto', display: 'block  '}}
+                <Form.Item style={{ paddingTop: "3%" }}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{
+                      width: "70%",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "block  ",
+                    }}
                   >
                     Sign In
                   </Button>
@@ -100,9 +107,42 @@ class Signup extends Component {
                 initialValues={{ remember: true }}
               >
                 <Form.Item
+                  name="Name"
+                  label="Full Name"
+                  rules={[
+                    { required: true, message: "Please input your Full Name!" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Address"
+                  name="Adress"
+                  rules={[
+                    { required: true, message: "Please input your Address!" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  label="Phone Number"
+                  name="Phone"
+                  rules={[{ required: true, message: "Please input your P!" }]}
+                >
+                  <Input addonBefore="+251" style={{ width: "100%" }} />
+                </Form.Item>
+
+                <Form.Item
                   name={["user", "email"]}
                   label="Email"
-                  rules={[{ required: true, type: "email", message: "Please input your email!"}]}
+                  rules={[
+                    {
+                      required: true,
+                      type: "email",
+                      message: "Please input your email!",
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
@@ -115,12 +155,19 @@ class Signup extends Component {
                 >
                   <Input />
                 </Form.Item>
-                <Row  gutter={2} >
+                <Row gutter={2}>
                   <Col span={6}>
                     <Form.Item
                       name={["user", "age"]}
                       label="Age"
-                      rules={[{ type: "number", min: 0, max: 99, message: "Please edit your age!" }]}
+                      rules={[
+                        {
+                          type: "number",
+                          min: 0,
+                          max: 99,
+                          message: "Please edit your age!",
+                        },
+                      ]}
                     >
                       <InputNumber />
                     </Form.Item>
@@ -131,7 +178,6 @@ class Signup extends Component {
                       name="gender"
                       label="Gender"
                       rules={[{ required: true }]}
-                      
                     >
                       <Select
                         // placeholder="Select a option and change input text above"
@@ -164,10 +210,17 @@ class Signup extends Component {
                 >
                   <Input.Password />
                 </Form.Item>
-                <Form.Item   style={{paddingTop: '3%'}}>
-                  <Button type="primary" htmlType="submit" 
-                  onClick={this.navigate}
-                  style={{width: '70%', marginLeft: 'auto', marginRight: 'auto', display: 'block  '}}
+                <Form.Item style={{ paddingTop: "3%" }}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={this.navigate}
+                    style={{
+                      width: "70%",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "block  ",
+                    }}
                   >
                     Register
                   </Button>
@@ -181,4 +234,4 @@ class Signup extends Component {
   }
 }
 
-export default withRouter(Signup) ;
+export default withRouter(Signup);
